@@ -1,0 +1,32 @@
+<svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wordmark { font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, 'Times New Roman', serif; }
+      .tagline { font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif; }
+    </style>
+  </defs>
+
+  <!-- Logomark: bar + U + dot -->
+  <g fill="none" stroke="#1B1008" stroke-width="3">
+    <line x1="420" y1="70" x2="480" y2="70" />
+    <path d="M 424 96 L 424 148 Q 424 176 450 176 Q 476 176 476 148 L 476 96" />
+  </g>
+  <circle cx="450" cy="204" r="6" fill="#1B1008" />
+
+  <!-- Wordmark: U L O(dot) M M I R I, even 106px cells, centered per letter -->
+  <g class="wordmark" fill="#1B1008" font-size="98" font-weight="500" text-anchor="middle">
+    <text x="123" y="330">U</text>
+    <text x="229" y="330">L</text>
+    <text x="335" y="330">O</text>
+    <text x="454" y="330">M</text>
+    <text x="573" y="330">M</text>
+    <text x="663" y="330">I</text>
+    <text x="729" y="330">R</text>
+    <text x="815" y="330">I</text>
+  </g>
+  <!-- dot below O -->
+  <circle cx="335" cy="368" r="6.5" fill="#1B1008" />
+
+  <!-- Tagline -->
+  <text x="450" y="410" class="tagline" font-size="27" letter-spacing="6" fill="#644329" text-anchor="middle">A HOUSE HELD BY WATER</text>
+</svg>

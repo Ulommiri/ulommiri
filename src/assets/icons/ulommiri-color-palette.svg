@@ -1,0 +1,48 @@
+<svg width="1000" height="420" viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .lbl { font-family: 'Cormorant Garamond', Georgia, serif; }
+      .hex { font-family: 'Courier New', monospace; }
+    </style>
+  </defs>
+  <rect width="1000" height="420" fill="#F4EFE6"/>
+  <text x="40" y="50" class="lbl" font-size="28" fill="#1B1008" font-weight="600">Ulọmmiri — Color Palette</text>
+  <text x="40" y="78" class="lbl" font-size="15" fill="#644329">Derived from the waterfall &amp; reflection photograph</text>
+
+  <!-- Swatch template: x, name, hex, fill, textColor -->
+  <g>
+    <!-- 1 -->
+    <rect x="40" y="110" width="145" height="145" rx="4" fill="#0A0502"/>
+    <text x="47" y="278" class="lbl" font-size="17" fill="#1B1008">Obsidian Water</text>
+    <text x="47" y="298" class="hex" font-size="14" fill="#644329">#0A0502</text>
+
+    <!-- 2 -->
+    <rect x="200" y="110" width="145" height="145" rx="4" fill="#1B1008"/>
+    <text x="207" y="278" class="lbl" font-size="17" fill="#1B1008">Espresso Stone</text>
+    <text x="207" y="298" class="hex" font-size="14" fill="#644329">#1B1008</text>
+
+    <!-- 3 -->
+    <rect x="360" y="110" width="145" height="145" rx="4" fill="#644329"/>
+    <text x="367" y="278" class="lbl" font-size="17" fill="#1B1008">Aged Copper</text>
+    <text x="367" y="298" class="hex" font-size="14" fill="#644329">#644329</text>
+
+    <!-- 4 -->
+    <rect x="520" y="110" width="145" height="145" rx="4" fill="#997A5E"/>
+    <text x="527" y="278" class="lbl" font-size="17" fill="#1B1008">Warm Brass</text>
+    <text x="527" y="298" class="hex" font-size="14" fill="#644329">#997A5E</text>
+
+    <!-- 5 -->
+    <rect x="680" y="110" width="145" height="145" rx="4" fill="#CAA17C" stroke="#00000010"/>
+    <text x="687" y="278" class="lbl" font-size="17" fill="#1B1008">Champagne Gold</text>
+    <text x="687" y="298" class="hex" font-size="14" fill="#644329">#CAA17C</text>
+
+    <!-- 6 -->
+    <rect x="840" y="110" width="120" height="145" rx="4" fill="#EFDCC3" stroke="#00000015"/>
+    <text x="843" y="278" class="lbl" font-size="17" fill="#1B1008">Ivory Mist</text>
+    <text x="843" y="298" class="hex" font-size="14" fill="#644329">#EFDCC3</text>
+  </g>
+
+  <text x="40" y="345" class="lbl" font-size="15" fill="#1B1008" font-weight="600">Suggested use</text>
+  <text x="40" y="368" class="lbl" font-size="14" fill="#644329">Background: Obsidian Water · Text/Logo: Ivory Mist · Accents &amp; CTAs: Champagne Gold</text>
+  <text x="40" y="390" class="lbl" font-size="14" fill="#644329">Dividers &amp; secondary text: Aged Copper / Warm Brass · Light-mode surface: Espresso Stone on Ivory</text>
+</svg>

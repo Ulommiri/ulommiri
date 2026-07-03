@@ -1,0 +1,28 @@
+<svg width="1100" height="220" viewBox="0 0 1100 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wordmark { font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, 'Times New Roman', serif; }
+    </style>
+  </defs>
+
+  <!-- Logomark: bar + U + dot, scaled down, left side -->
+  <g fill="none" stroke="#EFDCC3" stroke-width="2.6">
+    <line x1="42" y1="52" x2="90" y2="52" />
+    <path d="M 45 74 L 45 116 Q 45 138 66 138 Q 87 138 87 116 L 87 74" />
+  </g>
+  <circle cx="66" cy="158" r="5" fill="#EFDCC3" />
+
+  <!-- Wordmark -->
+  <g class="wordmark" fill="#EFDCC3" font-size="98" font-weight="500" text-anchor="middle">
+    <text x="230" y="152">U</text>
+    <text x="336" y="152">L</text>
+    <text x="442" y="152">O</text>
+    <text x="561" y="152">M</text>
+    <text x="680" y="152">M</text>
+    <text x="770" y="152">I</text>
+    <text x="836" y="152">R</text>
+    <text x="922" y="152">I</text>
+  </g>
+  <!-- dot below O -->
+  <circle cx="442" cy="190" r="6.5" fill="#EFDCC3" />
+</svg>
