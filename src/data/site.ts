@@ -1,14 +1,18 @@
 import type { StaticImageData } from "next/image";
 import {
 	suiteMorning,
+	suiteWindow,
 	gameRoom,
 	poolLakeview,
 	lakeCinema,
 	dockYoga,
 	omakaseChef,
+	omakaseLakeside,
+	chefPortrait,
 	gardenToast,
 	poolsideCinema,
 	cinemaDeck,
+	aerialEstate,
 } from "@/assets";
 
 export const HERO_VIDEO =
@@ -251,8 +255,8 @@ export const galleryImages: GalleryImage[] = [
 		className: "col-span-6 md:col-span-4",
 	},
 	{
-		src: gameRoom,
-		alt: "The lakeview games loft",
+		src: suiteMorning,
+		alt: "Morning light in a lakeview suite",
 		className: "col-span-6 md:col-span-4",
 	},
 	{
@@ -261,9 +265,79 @@ export const galleryImages: GalleryImage[] = [
 		className: "col-span-6 row-span-2 md:col-span-4",
 	},
 	{
+		src: gameRoom,
+		alt: "The lakeview games loft",
+		className: "col-span-6 md:col-span-4",
+	},
+	{
 		src: gardenToast,
 		alt: "Garden gatherings at golden hour",
+		className: "col-span-6 row-span-2 md:col-span-4",
+	},
+	{
+		src: chefPortrait,
+		alt: "The resident chef at the counter",
 		className: "col-span-6 md:col-span-4",
+	},
+	{
+		src: poolsideCinema,
+		alt: "Poolside evenings after dark",
+		className: "col-span-6 md:col-span-4",
+	},
+	{
+		src: aerialEstate,
+		alt: "The house and lake from above",
+		className: "col-span-12 row-span-2 md:col-span-4",
+	},
+	{
+		src: omakaseLakeside,
+		alt: "Omakase set beside the water",
+		className: "col-span-6 md:col-span-4",
+	},
+	{
+		src: suiteWindow,
+		alt: "A suite opening toward the lake",
+		className: "col-span-6 md:col-span-4",
+	},
+];
+
+export type Faq = { question: string; answer: string };
+
+export const faqs: Faq[] = [
+	{
+		question: "What is included in a stay?",
+		answer:
+			"Exclusive use of the entire house and grounds — the suites, the infinity pool, the dock and the games loft — along with fresh linens, a welcome provision and a dedicated host to arrange anything you need.",
+	},
+	{
+		question: "How many guests can the house sleep?",
+		answer:
+			"The house comfortably sleeps a small group across its suites. Share your party size when you enquire and we will confirm the best configuration for your stay.",
+	},
+	{
+		question: "Is there a minimum stay?",
+		answer:
+			"A two-night minimum applies for most of the year, with longer minimums over holidays and peak weekends. We are happy to accommodate longer, slower stays.",
+	},
+	{
+		question: "Are the experiences included?",
+		answer:
+			"Use of the pool, dock and grounds is always included. Signature experiences such as private omakase, sunrise yoga and open-air cinema are arranged on request and priced separately.",
+	},
+	{
+		question: "Can we host an event here?",
+		answer:
+			"Yes — the house holds a small number of intimate gatherings each season. Tell us what you are planning and we will tailor the grounds and service around it.",
+	},
+	{
+		question: "What is your cancellation policy?",
+		answer:
+			"Reservations may be adjusted or cancelled with full flexibility up to 30 days before arrival. Closer dates are handled case by case — we would rather find a solution than a penalty.",
+	},
+	{
+		question: "Are children and pets welcome?",
+		answer:
+			"Well-behaved children and pets are welcome with prior notice, so we can prepare the house and grounds to keep everyone safe and comfortable.",
 	},
 ];
 

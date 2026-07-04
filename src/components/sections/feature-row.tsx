@@ -83,7 +83,6 @@ export function FeatureRow({
 				{meta && (
 					<Reveal delay={0.2}>
 						<p className="mt-8 flex items-center gap-3 text-[0.7rem] tracking-[0.25em] text-brass uppercase">
-							<span className="h-px w-8 bg-brass/50" />
 							{meta}
 						</p>
 					</Reveal>

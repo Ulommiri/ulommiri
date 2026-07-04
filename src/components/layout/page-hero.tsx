@@ -11,7 +11,8 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, subtitle, image }: PageHeroProps) {
 	return (
-		<section className="relative flex h-svh min-h-160 w-full items-end overflow-hidden bg-obsidian">
+		<section className="relative flex h-svh min-h-150 w-full items-center md:items-end overflow-hidden bg-obsidian">
+			{/* <section className="relative flex h-svh min-h-160 w-full items-end overflow-hidden bg-obsidian"> */}
 			<Image
 				src={image}
 				alt=""
@@ -28,7 +29,6 @@ export function PageHero({ eyebrow, title, subtitle, image }: PageHeroProps) {
 			<div className="relative z-10 mx-auto w-full max-w-360 px-6 pb-16 md:px-12 md:pb-24">
 				<Reveal>
 					<span className="flex items-center gap-4 eyebrow text-gold">
-						<span className="h-px w-10 bg-gold/50" />
 						{eyebrow}
 					</span>
 				</Reveal>

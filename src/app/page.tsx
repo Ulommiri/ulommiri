@@ -4,6 +4,7 @@ import { Chambers } from "@/components/sections/chambers";
 import { Water } from "@/components/sections/water";
 import { Rituals } from "@/components/sections/rituals";
 import { Gallery } from "@/components/sections/gallery";
+import { Faq } from "@/components/sections/faq";
 import { Reserve } from "@/components/sections/reserve";
 
 export default function Home() {
@@ -14,7 +15,8 @@ export default function Home() {
 			<Chambers />
 			<Water />
 			<Rituals />
-			<Gallery />
+			<Gallery limit={6} />
+			<Faq />
 			<Reserve />
 		</main>
 	);

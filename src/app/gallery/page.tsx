@@ -14,7 +14,7 @@ export default function GalleryPage() {
 			<PageHero
 				eyebrow="Gallery"
 				title={["The house,", "in light"]}
-				subtitle="A few of the hours worth staying for — the pool at golden hour, the counter mid-service, the lake at dusk."
+				subtitle="A few of the hours worth staying for the pool at golden hour, the counter mid-service, the lake at dusk."
 				image={poolLakeview}
 			/>
 			<Gallery />
