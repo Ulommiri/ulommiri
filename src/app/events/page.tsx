@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
 import { FeatureList } from "@/components/sections/feature-list";
 import { PageCta } from "@/components/sections/page-cta";
-import { events } from "@/data/site";
+import { contact, events } from "@/data/site";
 import { gardenToast } from "@/assets";
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export default function EventsPage() {
 				title={["Let the water", "hold your day"]}
 				body="Tell us what you are celebrating, and we will shape the house around it."
 				ctaLabel="Enquire about events"
-				ctaHref="mailto:hello@ulommiri.com"
+				ctaHref={contact.emailHref}
 			/>
 		</main>
 	);

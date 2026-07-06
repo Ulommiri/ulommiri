@@ -2,9 +2,23 @@
 
 import { ArrowRight, ArrowUp } from "lucide-react";
 import { Monogram } from "@/components/brand/monogram";
+import {
+  InstagramIcon,
+  SnapchatIcon,
+  TiktokIcon,
+} from "@/components/brand/social-icons";
 import { ScrollLink } from "@/components/interactive/scroll-link";
 import { TextLink } from "@/components/interactive/text-link";
 import { footer } from "@/data/site";
+
+const socialIcons: Record<
+  string,
+  (props: { className?: string }) => React.JSX.Element
+> = {
+  Instagram: InstagramIcon,
+  TikTok: TiktokIcon,
+  Snapchat: SnapchatIcon,
+};
 
 function FooterLink({ href, label }: { href: string; label: string }) {
   const isAnchor = href.startsWith("#") && href.length > 1;
@@ -40,6 +54,27 @@ export function Footer() {
             <p className="mt-6 font-display text-2xl text-ivory/70 italic">
               {footer.tagline}
             </p>
+            <div className="mt-8 flex items-center gap-3">
+              {footer.socials.map((social) => {
+                const Icon = socialIcons[social.label];
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex size-10 cursor-pointer items-center justify-center rounded-full border border-gold/30 text-ivory/70 transition-colors duration-500 hover:border-gold hover:bg-gold hover:text-obsidian"
+                  >
+                    {Icon ? (
+                      <Icon className="size-4" />
+                    ) : (
+                      <span className="text-xs">{social.label[0]}</span>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
           </div>
 
           <div className="max-w-sm">

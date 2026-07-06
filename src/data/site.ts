@@ -235,70 +235,21 @@ export const events: Feature[] = [
 export type GalleryImage = {
 	src: StaticImageData;
 	alt: string;
-	className: string;
 };
 
 export const galleryImages: GalleryImage[] = [
-	{
-		src: lakeCinema,
-		alt: "Open-air cinema over the lake at dusk",
-		className: "col-span-6 row-span-2 md:col-span-4",
-	},
-	{
-		src: poolLakeview,
-		alt: "The infinity pool meeting the lake",
-		className: "col-span-6 md:col-span-4",
-	},
-	{
-		src: omakaseChef,
-		alt: "Omakase prepared at the counter",
-		className: "col-span-6 md:col-span-4",
-	},
-	{
-		src: suiteMorning,
-		alt: "Morning light in a lakeview suite",
-		className: "col-span-6 md:col-span-4",
-	},
-	{
-		src: dockYoga,
-		alt: "Sunrise yoga on the floating dock",
-		className: "col-span-6 row-span-2 md:col-span-4",
-	},
-	{
-		src: gameRoom,
-		alt: "The lakeview games loft",
-		className: "col-span-6 md:col-span-4",
-	},
-	{
-		src: gardenToast,
-		alt: "Garden gatherings at golden hour",
-		className: "col-span-6 row-span-2 md:col-span-4",
-	},
-	{
-		src: chefPortrait,
-		alt: "The resident chef at the counter",
-		className: "col-span-6 md:col-span-4",
-	},
-	{
-		src: poolsideCinema,
-		alt: "Poolside evenings after dark",
-		className: "col-span-6 md:col-span-4",
-	},
-	{
-		src: aerialEstate,
-		alt: "The house and lake from above",
-		className: "col-span-12 row-span-2 md:col-span-4",
-	},
-	{
-		src: omakaseLakeside,
-		alt: "Omakase set beside the water",
-		className: "col-span-6 md:col-span-4",
-	},
-	{
-		src: suiteWindow,
-		alt: "A suite opening toward the lake",
-		className: "col-span-6 md:col-span-4",
-	},
+	{ src: lakeCinema, alt: "Open-air cinema over the lake at dusk" },
+	{ src: poolLakeview, alt: "The infinity pool meeting the lake" },
+	{ src: omakaseChef, alt: "Omakase prepared at the counter" },
+	{ src: suiteMorning, alt: "Morning light in a lakeview suite" },
+	{ src: dockYoga, alt: "Sunrise yoga on the floating dock" },
+	{ src: gameRoom, alt: "The lakeview games loft" },
+	{ src: gardenToast, alt: "Garden gatherings at golden hour" },
+	{ src: chefPortrait, alt: "The resident chef at the counter" },
+	{ src: poolsideCinema, alt: "Poolside evenings after dark" },
+	{ src: aerialEstate, alt: "The house and lake from above" },
+	{ src: omakaseLakeside, alt: "Omakase set beside the water" },
+	{ src: suiteWindow, alt: "A suite opening toward the lake" },
 ];
 
 export type Faq = { question: string; answer: string };
@@ -349,6 +300,15 @@ export const reserve = {
 	note: "Enquiries answered within 24 hours",
 };
 
+export const contact = {
+	email: "info@onuestates.com",
+	emailHref: "mailto:info@onuestates.com",
+	phones: [
+		{ label: "+1 (281) 798-5787", href: "tel:+12817985787" },
+		{ label: "+1 (404) 543-7492", href: "tel:+14045437492" },
+	],
+};
+
 export const footer = {
 	tagline: "A house held by water",
 	columns: [
@@ -372,11 +332,15 @@ export const footer = {
 		{
 			title: "Connect",
 			links: [
-				{ label: "Instagram", href: "#" },
-				{ label: "hello@ulommiri.com", href: "mailto:hello@ulommiri.com" },
-				{ label: "+1 (000) 000-0000", href: "tel:+10000000000" },
+				{ label: contact.email, href: contact.emailHref },
+				...contact.phones,
 			],
 		},
+	],
+	socials: [
+		{ label: "Instagram", href: "https://www.instagram.com/ulommiri" },
+		{ label: "TikTok", href: "https://www.tiktok.com/@ulommiri" },
+		{ label: "Snapchat", href: "https://www.snapchat.com/@ulommiri" },
 	],
 	location: "Lakefront · United States",
 };

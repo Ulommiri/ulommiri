@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
 import { ReserveForm } from "@/components/sections/reserve-form";
-import { Reveal } from "@/components/motion/reveal";
 import { SectionLabel } from "@/components/layout/section-heading";
 import { TextLink } from "@/components/interactive/text-link";
+import { contact } from "@/data/site";
 import { lakeCinema } from "@/assets";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function ReservePage() {
 				<div className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
 					<div className="lg:sticky lg:top-32 lg:h-fit">
 						<SectionLabel>Enquire</SectionLabel>
-						<h2 className="mt-8 font-display text-[clamp(2rem,4vw,3.25rem)] leading-[1] font-light text-ivory">
+						<h2 className="mt-8 font-display text-[clamp(2rem,4vw,3.25rem)] leading-none font-light text-ivory">
 							Begin with a
 							<span className="text-gold italic"> conversation</span>
 						</h2>
@@ -43,10 +43,10 @@ export default function ReservePage() {
 								</dt>
 								<dd>
 									<TextLink
-										href="mailto:hello@ulommiri.com"
+										href={contact.emailHref}
 										className="text-lg text-ivory"
 									>
-										hello@ulommiri.com
+										{contact.email}
 									</TextLink>
 								</dd>
 							</div>
@@ -54,14 +54,16 @@ export default function ReservePage() {
 								<dt className="text-[0.7rem] tracking-[0.25em] text-brass uppercase">
 									Telephone
 								</dt>
-								<dd>
-									<TextLink
-										href="tel:+10000000000"
-										className="text-lg text-ivory"
-									>
-										+1 (000) 000-0000
-									</TextLink>
-								</dd>
+								{contact.phones.map((phone) => (
+									<dd key={phone.href}>
+										<TextLink
+											href={phone.href}
+											className="text-lg text-ivory"
+										>
+											{phone.label}
+										</TextLink>
+									</dd>
+								))}
 							</div>
 						</dl>
 					</div>

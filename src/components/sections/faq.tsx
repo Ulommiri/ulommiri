@@ -7,7 +7,7 @@ import { AnimatedHeading } from "@/components/motion/animated-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionLabel } from "@/components/layout/section-heading";
 import { TextLink } from "@/components/interactive/text-link";
-import { faqs } from "@/data/site";
+import { contact, faqs } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 export function Faq() {
@@ -29,11 +29,8 @@ export function Faq() {
 					<Reveal delay={0.15}>
 						<p className="mt-8 max-w-xs text-base leading-relaxed text-ivory/55">
 							Still wondering something? Write to us at{" "}
-							<TextLink
-								href="mailto:hello@ulommiri.com"
-								className="text-gold"
-							>
-								hello@ulommiri.com
+							<TextLink href={contact.emailHref} className="text-gold">
+								{contact.email}
 							</TextLink>
 							.
 						</p>
