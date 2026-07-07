@@ -10,6 +10,7 @@ import {
 import { ScrollLink } from "@/components/interactive/scroll-link";
 import { TextLink } from "@/components/interactive/text-link";
 import { footer } from "@/data/site";
+import type { SiteSettings } from "@/sanity/content";
 
 const socialIcons: Record<
   string,
@@ -34,11 +35,23 @@ function FooterLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-export function Footer() {
+export function Footer({ settings }: { settings: SiteSettings }) {
   const scrollTop = () => {
     if (window.__lenis) window.__lenis.scrollTo(0);
     else window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const columns = [
+    footer.columns[0],
+    footer.columns[1],
+    {
+      title: "Connect",
+      links: [
+        { label: settings.contactEmail, href: settings.contactEmailHref },
+        ...settings.contactPhones,
+      ],
+    },
+  ];
 
   return (
     <footer className="relative border-t border-border bg-espresso pt-20 pb-10">
@@ -52,10 +65,10 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-6 font-display text-2xl text-ivory/70 italic">
-              {footer.tagline}
+              {settings.footerTagline}
             </p>
             <div className="mt-8 flex items-center gap-3">
-              {footer.socials.map((social) => {
+              {settings.socials.map((social) => {
                 const Icon = socialIcons[social.label];
                 return (
                   <a
@@ -104,7 +117,7 @@ export function Footer() {
         </div>
 
         <div className="grid grid-cols-2 gap-10 py-16 md:grid-cols-3">
-          {footer.columns.map((column) => (
+          {columns.map((column) => (
             <div key={column.title}>
               <p className="eyebrow mb-6 text-brass">{column.title}</p>
               <ul className="flex flex-col gap-4">
@@ -121,7 +134,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-between gap-6 border-t border-border pt-8 md:flex-row">
           <p className="text-xs tracking-[0.15em] text-ivory/40 uppercase">
             &copy; {new Date().getFullYear()} Ul&#7884;mmiri &middot;{" "}
-            {footer.location}
+            {settings.footerLocation}
           </p>
           <button
             onClick={scrollTop}

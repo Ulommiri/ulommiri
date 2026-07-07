@@ -1,16 +1,40 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Play } from "lucide-react";
 import { AnimatedHeading } from "@/components/motion/animated-heading";
 import { CtaButton } from "@/components/ui/cta-button";
-import { scrollToSection } from "@/lib/scroll";
-import { HERO_VIDEO, heroMeta } from "@/data/site";
+import { FilmModal } from "@/components/interactive/film-modal";
+import type { HeroContent } from "@/sanity/content";
 
-export function Hero() {
+const CLOUDINARY_UPLOAD = "/video/upload/";
+
+function optimizedVideo(url: string) {
+	if (!url.includes(CLOUDINARY_UPLOAD)) return url;
+	return url.replace(
+		CLOUDINARY_UPLOAD,
+		`${CLOUDINARY_UPLOAD}q_auto,w_1920,c_limit/`
+	);
+}
+
+function filmVideo(url: string) {
+	if (!url.includes(CLOUDINARY_UPLOAD)) return url;
+	return url.replace(CLOUDINARY_UPLOAD, `${CLOUDINARY_UPLOAD}q_auto/`);
+}
+
+function posterFrame(url: string) {
+	if (!url.includes(CLOUDINARY_UPLOAD)) return undefined;
+	return url
+		.replace(CLOUDINARY_UPLOAD, `${CLOUDINARY_UPLOAD}so_0,q_auto,f_auto/`)
+		.replace(/\.(mp4|webm|mov|m4v)$/i, ".jpg");
+}
+
+export function Hero({ hero }: { hero: HeroContent }) {
 	const ref = useRef<HTMLElement>(null);
+	const videoRef = useRef<HTMLVideoElement>(null);
 	const [loaded, setLoaded] = useState(false);
+	const [filmOpen, setFilmOpen] = useState(false);
 	const { scrollYProgress } = useScroll({
 		target: ref,
 		offset: ["start start", "end start"],
@@ -21,6 +45,25 @@ export function Hero() {
 	const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
 	const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
 
+	const videoSrc = optimizedVideo(hero.videoUrl);
+	const poster = posterFrame(hero.videoUrl);
+	const filmSrc = filmVideo(hero.filmUrl);
+	const filmPoster = posterFrame(hero.filmUrl);
+
+	useEffect(() => {
+		const video = videoRef.current;
+		if (!video) return;
+
+		const markLoaded = () => setLoaded(true);
+		if (video.readyState >= 2) markLoaded();
+		video.addEventListener("loadeddata", markLoaded);
+
+		const attempt = video.play();
+		if (attempt) attempt.catch(() => { });
+
+		return () => video.removeEventListener("loadeddata", markLoaded);
+	}, []);
+
 	return (
 		<section
 			ref={ref}
@@ -28,18 +71,24 @@ export function Hero() {
 		// className="relative h-svh min-h-175 w-full overflow-hidden bg-obsidian"
 		>
 			<motion.div
-				style={{ scale: videoScale, y: videoY }}
-				className="absolute inset-0 will-change-transform"
+				style={{
+					scale: videoScale,
+					y: videoY,
+					backgroundImage: poster ? `url(${poster})` : undefined,
+				}}
+				className="absolute inset-0 bg-obsidian bg-cover bg-center will-change-transform"
 			>
 				<video
-					src={HERO_VIDEO}
+					ref={videoRef}
+					src={videoSrc}
+					poster={poster}
 					autoPlay
 					muted
 					loop
 					playsInline
 					preload="auto"
-					onCanPlay={() => setLoaded(true)}
-					className={`h-full w-full object-cover transition-opacity duration-1600 ease-out ${loaded ? "opacity-100" : "opacity-0"
+					onLoadedData={() => setLoaded(true)}
+					className={`h-full w-full object-cover transition-opacity duration-1000 ease-out ${loaded ? "opacity-100" : "opacity-0"
 						}`}
 				/>
 			</motion.div>
@@ -56,14 +105,14 @@ export function Hero() {
 				<div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
 					<div aria-hidden className="leading-[0.86] tracking-[-0.02em]">
 						<AnimatedHeading
-							text={[heroMeta.headline[0], heroMeta.headline[1]]}
+							text={[hero.headline[0], hero.headline[1]]}
 							as="span"
 							delay={0.5}
 							// className="block text-[clamp(4rem,min(12vw,15vh),8rem)] font-bold text-ivory"
 							className="block text-[4rem] md:text-[6.5rem] font-bold text-ivory"
 						/>
 						<AnimatedHeading
-							text={heroMeta.headline[2]}
+							text={hero.headline[2]}
 							as="span"
 							delay={0.9}
 							// className="block text-[clamp(4rem,min(12vw,15vh),8rem)] font-semibold text-gold italic"
@@ -78,16 +127,14 @@ export function Hero() {
 						className="flex w-full flex-col gap-7 lg:max-w-xs lg:pb-4"
 					>
 						<p className="text-pretty text-base leading-relaxed text-ivory/70">
-							{heroMeta.standfirst}
+							{hero.standfirst}
 						</p>
 						<div className="flex flex-wrap items-center gap-4">
-							<CtaButton onClick={() => scrollToSection("#reserve")}>
-								Reserve your stay
-							</CtaButton>
+							<CtaButton href="/reserve">Reserve your stay</CtaButton>
 							<CtaButton
 								tone="outline"
 								withArrow={false}
-								onClick={() => scrollToSection("#house")}
+								onClick={() => setFilmOpen(true)}
 							>
 								<Play className="size-3.5 fill-current" />
 								Watch the film
@@ -96,6 +143,13 @@ export function Hero() {
 					</motion.div>
 				</div>
 			</motion.div>
+
+			<FilmModal
+				open={filmOpen}
+				onClose={() => setFilmOpen(false)}
+				src={filmSrc}
+				poster={filmPoster}
+			/>
 		</section>
 	);
 }

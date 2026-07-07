@@ -7,10 +7,16 @@ import { AnimatedHeading } from "@/components/motion/animated-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionLabel } from "@/components/layout/section-heading";
 import { TextLink } from "@/components/interactive/text-link";
-import { contact, faqs } from "@/data/site";
+import type { FaqContent, SiteSettings } from "@/sanity/content";
 import { cn } from "@/lib/utils";
 
-export function Faq() {
+export function Faq({
+	faqs,
+	contact,
+}: {
+	faqs: FaqContent[];
+	contact: Pick<SiteSettings, "contactEmail" | "contactEmailHref">;
+}) {
 	const [open, setOpen] = useState<number | null>(0);
 
 	return (
@@ -29,8 +35,8 @@ export function Faq() {
 					<Reveal delay={0.15}>
 						<p className="mt-8 max-w-xs text-base leading-relaxed text-ivory/55">
 							Still wondering something? Write to us at{" "}
-							<TextLink href={contact.emailHref} className="text-gold">
-								{contact.email}
+							<TextLink href={contact.contactEmailHref} className="text-gold">
+								{contact.contactEmail}
 							</TextLink>
 							.
 						</p>

@@ -8,7 +8,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { AnimatedHeading } from "@/components/motion/animated-heading";
 import { SectionLabel } from "@/components/layout/section-heading";
 import { GalleryGrid } from "@/components/sections/gallery-grid";
-import { galleryImages, type GalleryImage } from "@/data/site";
+import type { MediaImage } from "@/sanity/content";
 import { cn } from "@/lib/utils";
 
 const SPACING = 650;
@@ -43,11 +43,11 @@ function TunnelItem({
 	index,
 	setRef,
 }: {
-	image: GalleryImage;
+	image: MediaImage;
 	index: number;
 	setRef: (el: HTMLElement | null) => void;
 }) {
-	const landscape = image.src.width > image.src.height;
+	const landscape = image.width > image.height;
 	const spot = scatter[index % scatter.length];
 	const z = FIRST_Z + index * SPACING;
 	const opacity = fadeFor(z);
@@ -91,8 +91,14 @@ function TunnelItem({
 	);
 }
 
-export function Gallery({ limit = 6 }: { limit?: number }) {
-	const items = galleryImages.slice(0, limit);
+export function Gallery({
+	items: allItems,
+	limit = 6,
+}: {
+	items: MediaImage[];
+	limit?: number;
+}) {
+	const items = allItems.slice(0, limit);
 	const sectionRef = useRef<HTMLElement>(null);
 	const trackRef = useRef<HTMLDivElement>(null);
 	const overlayRef = useRef<HTMLDivElement>(null);

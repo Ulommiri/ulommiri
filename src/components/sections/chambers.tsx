@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { SectionLabel } from "@/components/layout/section-heading";
-import { chambers } from "@/data/site";
+import type { ChamberContent } from "@/sanity/content";
 
-export function Chambers() {
+export function Chambers({ chambers }: { chambers: ChamberContent[] }) {
 	const sectionRef = useRef<HTMLElement>(null);
 	const trackRef = useRef<HTMLDivElement>(null);
 	const [enhanced, setEnhanced] = useState(false);
@@ -88,12 +88,12 @@ function IntroPanel() {
 	);
 }
 
-function ChamberCard({ chamber }: { chamber: (typeof chambers)[number] }) {
+function ChamberCard({ chamber }: { chamber: ChamberContent }) {
 	return (
 		<article className="group relative flex h-full w-[85vw] shrink-0 snap-center items-center px-3 md:w-160 md:px-8">
 			<div className="relative h-125 w-full overflow-hidden md:h-140">
 				<Image
-					src={chamber.image}
+					src={chamber.image.src}
 					alt={chamber.name}
 					fill
 					sizes="(max-width: 768px) 85vw, 40rem"

@@ -1,9 +1,8 @@
-import Image from "next/image";
-import type { GalleryImage } from "@/data/site";
+import Image, { type StaticImageData } from "next/image";
 import { cn } from "@/lib/utils";
 
 type GalleryGridProps = {
-	items: GalleryImage[];
+	items: { src: string | StaticImageData; alt: string }[];
 	onSelect?: (index: number) => void;
 	className?: string;
 };

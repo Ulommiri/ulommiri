@@ -2,9 +2,9 @@ import { ArrowUpRight } from "lucide-react";
 import { AnimatedHeading } from "@/components/motion/animated-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionLabel } from "@/components/layout/section-heading";
-import { offerings } from "@/data/site";
+import type { OfferingContent } from "@/sanity/content";
 
-export function Rituals() {
+export function Rituals({ offerings }: { offerings: OfferingContent[] }) {
 	return (
 		<section
 			id="rituals"

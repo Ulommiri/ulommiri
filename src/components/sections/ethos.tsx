@@ -2,9 +2,9 @@ import { Monogram } from "@/components/brand/monogram";
 import { Marquee } from "@/components/motion/marquee";
 import { ScrollRevealText } from "@/components/motion/scroll-reveal-text";
 import { SectionLabel } from "@/components/layout/section-heading";
-import { ethos } from "@/data/site";
+import type { EthosContent } from "@/sanity/content";
 
-export function Ethos() {
+export function Ethos({ ethos }: { ethos: EthosContent }) {
 	return (
 		<section
 			id="house"

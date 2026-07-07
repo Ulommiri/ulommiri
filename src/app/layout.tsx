@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
-import { SmoothScroll } from "@/components/providers/smooth-scroll";
-import { Cursor } from "@/components/interactive/cursor";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { ScrollProgress } from "@/components/interactive/scroll-progress";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -42,15 +37,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${manrope.variable} antialiased`}
     >
-      <body className="bg-obsidian text-ivory">
-        <Cursor />
-        <ScrollProgress />
-        <SmoothScroll>
-          <Navbar />
-          {children}
-          <Footer />
-        </SmoothScroll>
-      </body>
+      <body className="bg-obsidian text-ivory">{children}</body>
     </html>
   );
 }

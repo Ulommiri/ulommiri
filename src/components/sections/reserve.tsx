@@ -2,9 +2,9 @@ import { Monogram } from "@/components/brand/monogram";
 import { AnimatedHeading } from "@/components/motion/animated-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaButton } from "@/components/ui/cta-button";
-import { reserve } from "@/data/site";
+import type { ReserveContent } from "@/sanity/content";
 
-export function Reserve() {
+export function Reserve({ reserve }: { reserve: ReserveContent }) {
   return (
     <section
       id="reserve"
