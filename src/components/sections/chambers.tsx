@@ -128,7 +128,7 @@ function OutroPanel() {
 		<div className="flex h-full w-[70vw] shrink-0 snap-start items-center px-6 md:w-140 md:px-24">
 			<p className="font-display text-3xl leading-snug text-ivory/40 md:text-4xl">
 				Every chamber returns you
-				<span className="text-gold"> to the same water.</span>
+				<span className="text-gold"> to the same blissful experience.</span>
 			</p>
 		</div>
 	);

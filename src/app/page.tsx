@@ -13,7 +13,7 @@ export default function Home() {
 			<Hero />
 			<Ethos />
 			<Chambers />
-			<Water />
+			{/* <Water /> */}
 			<Rituals />
 			<Gallery limit={6} />
 			<Faq />

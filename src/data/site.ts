@@ -39,7 +39,7 @@ export const heroMeta = {
 
 export const ethos = {
 	eyebrow: "The House",
-	body: "Ulọmmiri means the house of water. Here, mornings arrive as reflections on the ceiling and the day is measured by the light on the lake rather than the clock. Every room opens toward the water, every surface remembers the hand that shaped it, and stillness is treated as the rarest luxury of all.",
+	body: "Ulọmmiri means the house held by water. Here, mornings arrive as reflections on the ceiling and the day is measured by the light on the lake rather than the clock. Every room opens toward the water, every surface remembers the hand that shaped it, and stillness is treated as the rarest luxury of all.",
 	signature: "A house held by water",
 };
 
