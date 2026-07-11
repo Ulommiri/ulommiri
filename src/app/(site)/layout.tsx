@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/interactive/scroll-progress";
 import { getSiteSettings } from "@/sanity/content";
 
+export const dynamic = "force-dynamic";
+
 export default async function SiteLayout({
   children,
 }: Readonly<{

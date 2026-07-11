@@ -190,7 +190,7 @@ const reserveContentFallback: ReserveContent = {
 
 export async function getHomeContent(): Promise<HomeContent> {
 	const data = (await client
-		.fetch(HOME_QUERY, {}, { next: { tags: ["sanity"], revalidate: 60 } })
+		.fetch(HOME_QUERY, {}, { cache: "no-store" })
 		.catch(() => null)) as RawHome | null;
 
 	if (!data) {
@@ -278,7 +278,7 @@ const settingsFallback: SiteSettings = {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
 	const data = (await client
-		.fetch(SETTINGS_QUERY, {}, { next: { tags: ["sanity"], revalidate: 60 } })
+		.fetch(SETTINGS_QUERY, {}, { cache: "no-store" })
 		.catch(() => null)) as RawSettings | null;
 	if (!data) return settingsFallback;
 
@@ -293,9 +293,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 	return {
 		contactEmail: email,
 		contactEmailHref: `mailto:${email}`,
-		contactPhones: phones.length
-			? phones.map((p) => ({ label: p, href: telHref(p) }))
-			: settingsFallback.contactPhones,
+		contactPhones: phones.map((p) => ({ label: p, href: telHref(p) })),
 		socials: socials.length
 			? socials.map((s) => ({ label: text(s?.label, ""), href: text(s?.href, "") }))
 			: settingsFallback.socials,

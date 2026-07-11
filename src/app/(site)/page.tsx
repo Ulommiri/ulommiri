@@ -7,6 +7,8 @@ import { Faq } from "@/components/sections/faq";
 import { Reserve } from "@/components/sections/reserve";
 import { getHomeContent, getSiteSettings } from "@/sanity/content";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
 	const [content, settings] = await Promise.all([
 		getHomeContent(),
