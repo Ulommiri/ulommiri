@@ -190,7 +190,7 @@ const reserveContentFallback: ReserveContent = {
 
 export async function getHomeContent(): Promise<HomeContent> {
 	const data = (await client
-		.fetch(HOME_QUERY, {}, { next: { tags: ["sanity"] } })
+		.fetch(HOME_QUERY, {}, { next: { tags: ["sanity"], revalidate: 60 } })
 		.catch(() => null)) as RawHome | null;
 
 	if (!data) {
@@ -278,7 +278,7 @@ const settingsFallback: SiteSettings = {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
 	const data = (await client
-		.fetch(SETTINGS_QUERY, {}, { next: { tags: ["sanity"] } })
+		.fetch(SETTINGS_QUERY, {}, { next: { tags: ["sanity"], revalidate: 60 } })
 		.catch(() => null)) as RawSettings | null;
 	if (!data) return settingsFallback;
 
