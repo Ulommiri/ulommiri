@@ -3,8 +3,9 @@ import { FeatureList } from "@/components/sections/feature-list";
 import { PageCta } from "@/components/sections/page-cta";
 import { JsonLd } from "@/components/seo/json-ld";
 import { pageMetadata, breadcrumbSchema } from "@/lib/seo";
-import { chambers, type Feature } from "@/data/site";
-import { suiteWindow } from "@/assets";
+import { getAccommodationsContent, getSharedChambers } from "@/sanity/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = pageMetadata({
 	title: "Accommodations",
@@ -13,16 +14,12 @@ export const metadata = pageMetadata({
 	path: "/accommodations",
 });
 
-const spaces: Feature[] = chambers.map((chamber) => ({
-	index: chamber.index,
-	title: chamber.name,
-	tagline: chamber.tagline,
-	description: chamber.description,
-	meta: chamber.size,
-	image: chamber.image,
-}));
+export default async function AccommodationsPage() {
+	const [content, chambers] = await Promise.all([
+		getAccommodationsContent(),
+		getSharedChambers(),
+	]);
 
-export default function AccommodationsPage() {
 	return (
 		<main>
 			<JsonLd
@@ -32,16 +29,23 @@ export default function AccommodationsPage() {
 				])}
 			/>
 			<PageHero
-				eyebrow="Accommodations"
-				title={["Rooms that", "face the water"]}
-				subtitle="Linen, light and quiet — every chamber opens toward the lake, so the water is the first thing you see and the last thing you hear."
-				image={suiteWindow}
+				eyebrow={content.hero.eyebrow}
+				title={content.hero.title}
+				subtitle={content.hero.subtitle}
+				image={content.hero.image.src}
+				videoUrl={content.hero.videoUrl}
 			/>
-			<FeatureList items={spaces} />
-			<PageCta
-				title={["Wake to", "the water"]}
-				body="A limited number of chambers open each season. Reserve the house and we will prepare it exactly to your rhythm."
+			<FeatureList
+				items={chambers.map((chamber) => ({
+					index: chamber.index,
+					title: chamber.name,
+					tagline: chamber.tagline,
+					description: chamber.description,
+					meta: chamber.size,
+					image: chamber.image.src,
+				}))}
 			/>
+			<PageCta title={content.cta.title} body={content.cta.body} />
 		</main>
 	);
 }

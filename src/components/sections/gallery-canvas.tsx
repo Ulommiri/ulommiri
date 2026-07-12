@@ -4,8 +4,14 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { GalleryGrid } from "@/components/sections/gallery-grid";
-import { galleryImages, type GalleryImage } from "@/data/site";
+import type { MediaImage } from "@/sanity/content";
 import "@/lib/scroll";
+
+type GalleryHeading = {
+	eyebrow: string;
+	titleLine1: string;
+	titleLine2: string;
+};
 
 const BLOCK_W = 2360;
 const BLOCK_H = 2620;
@@ -41,13 +47,13 @@ function Tile({
 	scale,
 	onOpen,
 }: {
-	image: GalleryImage;
+	image: MediaImage;
 	index: number;
 	scale: number;
 	onOpen: (index: number) => void;
 }) {
 	const tile = tiles[index];
-	const ratio = image.src.width / image.src.height;
+	const ratio = image.width / image.height;
 
 	return (
 		<button
@@ -89,7 +95,7 @@ function Lightbox({
 	onStep,
 }: {
 	index: number | null;
-	items: GalleryImage[];
+	items: MediaImage[];
 	onClose: () => void;
 	onStep: (direction: 1 | -1) => void;
 }) {
@@ -115,7 +121,11 @@ function Lightbox({
 						<Image
 							src={items[index].src}
 							alt={items[index].alt}
-							placeholder="blur"
+							width={items[index].width}
+							height={items[index].height}
+							placeholder={
+								typeof items[index].src === "string" ? "empty" : "blur"
+							}
 							sizes="(max-width: 768px) 92vw, 64rem"
 							className="mx-auto h-auto max-h-[74vh] w-auto object-contain"
 						/>
@@ -165,7 +175,13 @@ function Lightbox({
 	);
 }
 
-export function GalleryCanvas() {
+export function GalleryCanvas({
+	items,
+	heading,
+}: {
+	items: MediaImage[];
+	heading: GalleryHeading;
+}) {
 	const worldRef = useRef<HTMLDivElement>(null);
 	const zoomRef = useRef<HTMLDivElement>(null);
 	const pos = useRef({
@@ -190,7 +206,7 @@ export function GalleryCanvas() {
 		setActive((current) =>
 			current === null
 				? current
-				: (current + direction + galleryImages.length) % galleryImages.length
+				: (current + direction + items.length) % items.length
 		);
 
 	useEffect(() => {
@@ -283,13 +299,15 @@ export function GalleryCanvas() {
 			<>
 				<section className="border-t border-border bg-obsidian pt-36 pb-24 md:pt-44">
 					<div className="mx-auto max-w-360 px-6 md:px-12">
-						<span className="eyebrow text-gold">Gallery</span>
+						<span className="eyebrow text-gold">{heading.eyebrow}</span>
 						<h1 className="mt-8 font-display text-[clamp(2.5rem,7vw,6rem)] leading-[0.9] font-light text-ivory">
-							The house,
-							<span className="block text-gold italic">in light</span>
+							{heading.titleLine1}
+							<span className="block text-gold italic">
+								{heading.titleLine2}
+							</span>
 						</h1>
 						<GalleryGrid
-							items={galleryImages}
+							items={items}
 							onSelect={setActive}
 							className="mt-16"
 						/>
@@ -297,7 +315,7 @@ export function GalleryCanvas() {
 				</section>
 				<Lightbox
 					index={active}
-					items={galleryImages}
+					items={items}
 					onClose={() => setActive(null)}
 					onStep={step}
 				/>
@@ -337,7 +355,7 @@ export function GalleryCanvas() {
 										height: blockH,
 									}}
 								>
-									{galleryImages.map((image, i) => (
+									{items.map((image, i) => (
 										<Tile
 											key={image.alt}
 											image={image}
@@ -370,10 +388,14 @@ export function GalleryCanvas() {
 								"radial-gradient(ellipse at center, rgba(10, 5, 2, 0.65) 0%, rgba(10, 5, 2, 0.2) 45%, transparent 70%)",
 						}}
 					/>
-					<span className="eyebrow relative text-gold">Gallery</span>
+					<span className="eyebrow relative text-gold">
+						{heading.eyebrow}
+					</span>
 					<h1 className="relative mt-6 font-display text-[clamp(3rem,9vw,7.5rem)] leading-[0.9] font-light text-ivory">
-						The house,
-						<span className="block text-gold italic">in light</span>
+						{heading.titleLine1}
+						<span className="block text-gold italic">
+							{heading.titleLine2}
+						</span>
 					</h1>
 					<p className="relative mt-8 text-[0.65rem] tracking-[0.3em] text-ivory/60 uppercase">
 						Drag to wander · Click to linger
@@ -388,7 +410,7 @@ export function GalleryCanvas() {
 
 			<Lightbox
 				index={active}
-				items={galleryImages}
+				items={items}
 				onClose={() => setActive(null)}
 				onStep={step}
 			/>

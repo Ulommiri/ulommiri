@@ -75,10 +75,10 @@ function IntroPanel() {
 		<div className="flex h-full w-[85vw] shrink-0 snap-start flex-col justify-center px-6 md:w-160 md:px-24">
 			<SectionLabel>The Chambers</SectionLabel>
 			<h2 className="mt-8 font-display text-[clamp(2.75rem,7vw,6rem)] leading-[0.95] font-light text-ivory">
-				Four ways
+				Four Ways
 				<br />
-				to be held
-				<span className="text-gold italic"> by water</span>
+				To Be Held
+				<span className="text-gold italic"> By Water</span>
 			</h2>
 			<p className="mt-8 max-w-sm text-base leading-relaxed text-ivory/60">
 				A small collection of chambers, each turned toward the lake and shaped

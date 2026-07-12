@@ -3,8 +3,9 @@ import { FeatureList } from "@/components/sections/feature-list";
 import { PageCta } from "@/components/sections/page-cta";
 import { JsonLd } from "@/components/seo/json-ld";
 import { pageMetadata, breadcrumbSchema } from "@/lib/seo";
-import { contact, events } from "@/data/site";
-import { gardenToast } from "@/assets";
+import { getEventsContent, getSiteSettings } from "@/sanity/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = pageMetadata({
 	title: "Events",
@@ -13,7 +14,12 @@ export const metadata = pageMetadata({
 	path: "/events",
 });
 
-export default function EventsPage() {
+export default async function EventsPage() {
+	const [content, settings] = await Promise.all([
+		getEventsContent(),
+		getSiteSettings(),
+	]);
+
 	return (
 		<main>
 			<JsonLd
@@ -23,17 +29,23 @@ export default function EventsPage() {
 				])}
 			/>
 			<PageHero
-				eyebrow="Events"
-				title={["Gatherings", "by the water"]}
-				subtitle="Long-table lunches, garden celebrations and evenings that drift late — the house holds a small number of gatherings each season, each one built around the water."
-				image={gardenToast}
+				eyebrow={content.hero.eyebrow}
+				title={content.hero.title}
+				subtitle={content.hero.subtitle}
+				image={content.hero.image.src}
+				videoUrl={content.hero.videoUrl}
 			/>
-			<FeatureList items={events} />
+			<FeatureList
+				items={content.items.map((item) => ({
+					...item,
+					image: item.image.src,
+				}))}
+			/>
 			<PageCta
-				title={["Let the water", "hold your day"]}
-				body="Tell us what you are celebrating, and we will shape the house around it."
-				ctaLabel="Enquire about events"
-				ctaHref={contact.emailHref}
+				title={content.cta.title}
+				body={content.cta.body}
+				ctaLabel={content.cta.label}
+				ctaHref={settings.contactEmailHref}
 			/>
 		</main>
 	);

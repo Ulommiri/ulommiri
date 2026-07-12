@@ -6,6 +6,9 @@ import {
 	breadcrumbSchema,
 	imageGallerySchema,
 } from "@/lib/seo";
+import { getGalleryPageContent, getSharedGallery } from "@/sanity/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = pageMetadata({
 	title: "Gallery",
@@ -14,7 +17,12 @@ export const metadata = pageMetadata({
 	path: "/gallery",
 });
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+	const [content, images] = await Promise.all([
+		getGalleryPageContent(),
+		getSharedGallery(),
+	]);
+
 	return (
 		<main>
 			<JsonLd
@@ -26,11 +34,15 @@ export default function GalleryPage() {
 					imageGallerySchema(),
 				]}
 			/>
-			<GalleryCanvas />
-			<PageCta
-				title={["Seen enough", "to stay?"]}
-				body="The photographs only hold still. The house does not — come let it move around you."
+			<GalleryCanvas
+				items={images}
+				heading={{
+					eyebrow: content.eyebrow,
+					titleLine1: content.title[0],
+					titleLine2: content.title[1],
+				}}
 			/>
+			<PageCta title={content.cta.title} body={content.cta.body} />
 		</main>
 	);
 }

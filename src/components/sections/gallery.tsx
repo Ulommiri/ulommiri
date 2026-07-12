@@ -184,7 +184,7 @@ export function Gallery({
 				<div className="mx-auto max-w-360 px-6 md:px-12">
 					<SectionLabel>Gallery</SectionLabel>
 					<AnimatedHeading
-						text={["The house,", "in glimpses"]}
+						text={["The House,", "In Glimpses"]}
 						className="mt-8 text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] font-light text-ivory"
 						lineClassName="[&:nth-child(2)]:text-gold [&:nth-child(2)]:italic"
 					/>

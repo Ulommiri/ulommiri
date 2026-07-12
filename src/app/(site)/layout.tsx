@@ -8,21 +8,21 @@ import { getSiteSettings } from "@/sanity/content";
 export const dynamic = "force-dynamic";
 
 export default async function SiteLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  const settings = await getSiteSettings();
+	const settings = await getSiteSettings();
 
-  return (
-    <>
-      <Cursor />
-      <ScrollProgress />
-      <SmoothScroll>
-        <Navbar />
-        {children}
-        <Footer settings={settings} />
-      </SmoothScroll>
-    </>
-  );
+	return (
+		<>
+			<Cursor />
+			<ScrollProgress />
+			<SmoothScroll>
+				<Navbar />
+				{children}
+				<Footer settings={settings} />
+			</SmoothScroll>
+		</>
+	);
 }

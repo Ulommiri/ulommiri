@@ -28,7 +28,7 @@ export function Faq({
 				<div className="lg:sticky lg:top-32 lg:h-fit">
 					<SectionLabel>Questions</SectionLabel>
 					<AnimatedHeading
-						text={["Everything", "you might ask"]}
+						text={["Everything", "You Might Ask"]}
 						className="mt-8 text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[0.95] font-light text-ivory"
 						lineClassName="[&:nth-child(2)]:text-gold [&:nth-child(2)]:italic"
 					/>
@@ -71,7 +71,7 @@ export function Faq({
 									</span>
 									<Plus
 										className={cn(
-											"size-5 shrink-0 text-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+											"size-5 shrink-0 text-gold transition-transform duration-500 ease-luxe",
 											isOpen && "rotate-135"
 										)}
 									/>

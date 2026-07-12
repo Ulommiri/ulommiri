@@ -20,6 +20,7 @@ export const HERO_VIDEO =
 
 export const navLinks = [
 	{ label: "Experiences", href: "/experiences" },
+	{ label: "Our Chefs", href: "/chefs" },
 	{ label: "Location", href: "/location" },
 	{ label: "Events", href: "/events" },
 	{ label: "Accommodations", href: "/accommodations" },
@@ -316,6 +317,7 @@ export const footer = {
 			title: "Explore",
 			links: [
 				{ label: "Experiences", href: "/experiences" },
+				{ label: "Our Chefs", href: "/chefs" },
 				{ label: "Accommodations", href: "/accommodations" },
 				{ label: "Events", href: "/events" },
 				{ label: "Location", href: "/location" },

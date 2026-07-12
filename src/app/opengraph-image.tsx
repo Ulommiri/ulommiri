@@ -41,7 +41,7 @@ export default function OpengraphImage() {
 						fontWeight: 500,
 					}}
 				>
-					UL{"Ọ"}MMIRI
+					ULỌMMIRI
 				</div>
 				<div
 					style={{

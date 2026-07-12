@@ -3,8 +3,9 @@ import { FeatureList } from "@/components/sections/feature-list";
 import { PageCta } from "@/components/sections/page-cta";
 import { JsonLd } from "@/components/seo/json-ld";
 import { pageMetadata, breadcrumbSchema } from "@/lib/seo";
-import { experiences } from "@/data/site";
-import { omakaseChef } from "@/assets";
+import { getExperiencesContent } from "@/sanity/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = pageMetadata({
 	title: "Experiences",
@@ -13,7 +14,9 @@ export const metadata = pageMetadata({
 	path: "/experiences",
 });
 
-export default function ExperiencesPage() {
+export default async function ExperiencesPage() {
+	const content = await getExperiencesContent();
+
 	return (
 		<main>
 			<JsonLd
@@ -23,16 +26,19 @@ export default function ExperiencesPage() {
 				])}
 			/>
 			<PageHero
-				eyebrow="Experiences"
-				title={["Days made", "of water"]}
-				subtitle="Private omakase at the counter, sunrise yoga on the dock, films raised over the lake at dusk — the house is a series of slow, deliberate pleasures, arranged by conversation and shaped to your rhythm."
-				image={omakaseChef}
+				eyebrow={content.heroEyebrow}
+				title={content.heroTitle}
+				subtitle={content.heroSubtitle}
+				image={content.heroImage.src}
+				videoUrl={content.heroVideoUrl}
 			/>
-			<FeatureList items={experiences} />
-			<PageCta
-				title={["Come be held", "by the water"]}
-				body="Tell us how you like to spend a day, and we will build it into the house before you arrive."
+			<FeatureList
+				items={content.items.map((item) => ({
+					...item,
+					image: item.image.src,
+				}))}
 			/>
+			<PageCta title={content.cta.title} body={content.cta.body} />
 		</main>
 	);
 }

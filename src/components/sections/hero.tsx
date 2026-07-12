@@ -6,29 +6,8 @@ import { Play } from "lucide-react";
 import { AnimatedHeading } from "@/components/motion/animated-heading";
 import { CtaButton } from "@/components/ui/cta-button";
 import { FilmModal } from "@/components/interactive/film-modal";
+import { optimizedVideo, filmVideo, posterFrame } from "@/lib/cloudinary";
 import type { HeroContent } from "@/sanity/content";
-
-const CLOUDINARY_UPLOAD = "/video/upload/";
-
-function optimizedVideo(url: string) {
-	if (!url.includes(CLOUDINARY_UPLOAD)) return url;
-	return url.replace(
-		CLOUDINARY_UPLOAD,
-		`${CLOUDINARY_UPLOAD}q_auto,w_1920,c_limit/`
-	);
-}
-
-function filmVideo(url: string) {
-	if (!url.includes(CLOUDINARY_UPLOAD)) return url;
-	return url.replace(CLOUDINARY_UPLOAD, `${CLOUDINARY_UPLOAD}q_auto/`);
-}
-
-function posterFrame(url: string) {
-	if (!url.includes(CLOUDINARY_UPLOAD)) return undefined;
-	return url
-		.replace(CLOUDINARY_UPLOAD, `${CLOUDINARY_UPLOAD}so_0,q_auto,f_auto/`)
-		.replace(/\.(mp4|webm|mov|m4v)$/i, ".jpg");
-}
 
 export function Hero({ hero }: { hero: HeroContent }) {
 	const ref = useRef<HTMLElement>(null);

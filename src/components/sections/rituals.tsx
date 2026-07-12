@@ -14,13 +14,13 @@ export function Rituals({ offerings }: { offerings: OfferingContent[] }) {
 				<div className="lg:sticky lg:top-32 lg:h-fit">
 					<SectionLabel>Experiences</SectionLabel>
 					<AnimatedHeading
-						text={["Experiences at", "Ulommiri"]}
+						text={["Experiences At", "Ulommiri"]}
 						className="mt-8 text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] font-light text-ivory"
 						lineClassName="[&:nth-child(2)]:text-gold [&:nth-child(2)]:italic"
 					/>
 					<Reveal delay={0.15}>
 						<p className="mt-8 max-w-sm text-base leading-relaxed text-ivory/60">
-							The house is less a hotel than a series of small ceremonies &mdash;
+							The house is less a hotel than a series of small ceremonies,
 							things to sink into, one unhurried hour at a time.
 						</p>
 					</Reveal>
