@@ -240,8 +240,8 @@ export function Gallery({
 					>
 						<span className="eyebrow text-gold">The full gallery</span>
 						<p className="mt-6 font-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] font-light text-ivory">
-							Every hour,
-							<span className="block text-gold italic">kept in light</span>
+							Every Hour,
+							<span className="block text-gold italic">Kept In Light</span>
 						</p>
 						<Link
 							href="/gallery"
@@ -258,7 +258,7 @@ export function Gallery({
 				>
 					<SectionLabel>Gallery</SectionLabel>
 					<AnimatedHeading
-						text={["The house,", "in glimpses"]}
+						text={["The House,", "In Glimpses"]}
 						className="mt-6 text-[clamp(2rem,4vw,3.5rem)] leading-[0.95] font-light text-ivory"
 						lineClassName="[&:nth-child(2)]:text-gold [&:nth-child(2)]:italic"
 					/>
