@@ -5,8 +5,6 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { pageMetadata, breadcrumbSchema } from "@/lib/seo";
 import { getEventsContent, getSiteSettings } from "@/sanity/content";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = pageMetadata({
 	title: "Events",
 	description:

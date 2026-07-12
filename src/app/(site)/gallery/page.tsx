@@ -8,8 +8,6 @@ import {
 } from "@/lib/seo";
 import { getGalleryPageContent, getSharedGallery } from "@/sanity/content";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = pageMetadata({
 	title: "Gallery",
 	description:

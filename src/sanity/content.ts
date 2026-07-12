@@ -395,7 +395,7 @@ const reserveContentFallback: ReserveContent = {
 
 export async function getHomeContent(): Promise<HomeContent> {
 	const data = (await client
-		.fetch(HOME_QUERY, {}, { cache: "no-store" })
+		.fetch(HOME_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawHome | null;
 
 	if (!data) {
@@ -505,7 +505,7 @@ const experiencesFallback: ExperiencesContent = {
 
 export async function getExperiencesContent(): Promise<ExperiencesContent> {
 	const data = (await client
-		.fetch(EXPERIENCES_QUERY, {}, { cache: "no-store" })
+		.fetch(EXPERIENCES_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawExperiences | null;
 
 	if (!data) return experiencesFallback;
@@ -588,7 +588,7 @@ function pageHero(
 
 export async function getSharedChambers(): Promise<ChamberContent[]> {
 	const data = (await client
-		.fetch(CHAMBERS_QUERY, {}, { cache: "no-store" })
+		.fetch(CHAMBERS_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawChamber[] | null;
 
 	if (!data || !data.length) return chambersContentFallback;
@@ -615,7 +615,7 @@ export async function getSharedChambers(): Promise<ChamberContent[]> {
 
 export async function getSharedGallery(): Promise<MediaImage[]> {
 	const data = (await client
-		.fetch(GALLERY_QUERY, {}, { cache: "no-store" })
+		.fetch(GALLERY_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawGalleryItem[] | null;
 
 	if (!data) return galleryContentFallback;
@@ -644,7 +644,7 @@ const accommodationsFallback: AccommodationsContent = {
 
 export async function getAccommodationsContent(): Promise<AccommodationsContent> {
 	const data = (await client
-		.fetch(ACCOMMODATIONS_QUERY, {}, { cache: "no-store" })
+		.fetch(ACCOMMODATIONS_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawAccommodations | null;
 
 	if (!data) return accommodationsFallback;
@@ -687,7 +687,7 @@ const eventsFallback: EventsContent = {
 
 export async function getEventsContent(): Promise<EventsContent> {
 	const data = (await client
-		.fetch(EVENTS_QUERY, {}, { cache: "no-store" })
+		.fetch(EVENTS_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawEvents | null;
 
 	if (!data) return eventsFallback;
@@ -734,7 +734,7 @@ const galleryPageFallback: GalleryPageContent = {
 
 export async function getGalleryPageContent(): Promise<GalleryPageContent> {
 	const data = (await client
-		.fetch(GALLERY_PAGE_QUERY, {}, { cache: "no-store" })
+		.fetch(GALLERY_PAGE_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawGalleryPage | null;
 
 	if (!data) return galleryPageFallback;
@@ -792,7 +792,7 @@ const locationFallback: LocationContent = {
 
 export async function getLocationContent(): Promise<LocationContent> {
 	const data = (await client
-		.fetch(LOCATION_QUERY, {}, { cache: "no-store" })
+		.fetch(LOCATION_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawLocation | null;
 
 	if (!data) return locationFallback;
@@ -846,7 +846,7 @@ const reservePageFallback: ReservePageContent = {
 
 export async function getReservePageContent(): Promise<ReservePageContent> {
 	const data = (await client
-		.fetch(RESERVE_QUERY, {}, { cache: "no-store" })
+		.fetch(RESERVE_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawReservePage | null;
 
 	if (!data) return reservePageFallback;
@@ -904,7 +904,7 @@ const chefsFallback: ChefsContent = {
 
 export async function getChefsContent(): Promise<ChefsContent> {
 	const data = (await client
-		.fetch(CHEFS_QUERY, {}, { cache: "no-store" })
+		.fetch(CHEFS_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawChefs | null;
 
 	if (!data) return chefsFallback;
@@ -945,7 +945,7 @@ const settingsFallback: SiteSettings = {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
 	const data = (await client
-		.fetch(SETTINGS_QUERY, {}, { cache: "no-store" })
+		.fetch(SETTINGS_QUERY, {}, { next: { revalidate: 3600, tags: ["sanity"] } })
 		.catch(() => null)) as RawSettings | null;
 	if (!data) return settingsFallback;
 

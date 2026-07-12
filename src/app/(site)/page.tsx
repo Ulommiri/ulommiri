@@ -9,8 +9,6 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { resortSchema, faqSchema } from "@/lib/seo";
 import { getHomeContent, getSiteSettings } from "@/sanity/content";
 
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
 	const [content, settings] = await Promise.all([
 		getHomeContent(),
