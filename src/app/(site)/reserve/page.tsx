@@ -1,20 +1,28 @@
-import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
 import { ReserveForm } from "@/components/sections/reserve-form";
 import { SectionLabel } from "@/components/layout/section-heading";
 import { TextLink } from "@/components/interactive/text-link";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, breadcrumbSchema } from "@/lib/seo";
 import { contact } from "@/data/site";
 import { lakeCinema } from "@/assets";
 
-export const metadata: Metadata = {
-	title: "Book Your Stay — Ulọmmiri",
+export const metadata = pageMetadata({
+	title: "Book Your Stay",
 	description:
-		"Reserve the house. A limited number of stays open each season at Ulọmmiri.",
-};
+		"Reserve Ulọmmiri, the private lake house. A limited number of whole-house stays open each season, booked by conversation. Enquiries answered within 24 hours.",
+	path: "/reserve",
+});
 
 export default function ReservePage() {
 	return (
 		<main>
+			<JsonLd
+				data={breadcrumbSchema([
+					{ name: "Home", path: "/" },
+					{ name: "Book Your Stay", path: "/reserve" },
+				])}
+			/>
 			<PageHero
 				eyebrow="Book Your Stay"
 				title={["Reserve", "the house"]}

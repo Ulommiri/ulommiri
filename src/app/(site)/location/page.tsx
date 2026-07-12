@@ -1,17 +1,19 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { PageHero } from "@/components/layout/page-hero";
 import { PageCta } from "@/components/sections/page-cta";
 import { ScrollRevealText } from "@/components/motion/scroll-reveal-text";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionLabel } from "@/components/layout/section-heading";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, breadcrumbSchema } from "@/lib/seo";
 import { aerialEstate, dockYoga } from "@/assets";
 
-export const metadata: Metadata = {
-	title: "Location — Ulọmmiri",
+export const metadata = pageMetadata({
+	title: "Location",
 	description:
-		"Ulọmmiri sits on the quiet edge of a private lake, wrapped in forest and held by the water.",
-};
+		"Ulọmmiri sits on the quiet edge of a private lake in the United States — wrapped in forest, held by the water, an easy drive from the city and its airport.",
+	path: "/location",
+});
 
 const details = [
 	{
@@ -31,6 +33,12 @@ const details = [
 export default function LocationPage() {
 	return (
 		<main>
+			<JsonLd
+				data={breadcrumbSchema([
+					{ name: "Home", path: "/" },
+					{ name: "Location", path: "/location" },
+				])}
+			/>
 			<PageHero
 				eyebrow="Location"
 				title={["On the edge", "of the water"]}
