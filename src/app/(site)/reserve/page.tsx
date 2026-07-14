@@ -79,7 +79,7 @@ export default async function ReservePage() {
 						</dl>
 					</div>
 
-					<ReserveForm />
+					<ReserveForm blockedDates={content.blockedDates} />
 				</div>
 			</section>
 		</main>

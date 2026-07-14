@@ -176,7 +176,8 @@ export const RESERVE_QUERY = defineQuery(`*[_type == "reservePage"][0]{
 	enquireLabel,
 	enquireLeadLine,
 	enquireAccent,
-	enquireBody
+	enquireBody,
+	blockedRanges[]{ from, to, label }
 }`);
 
 export const SETTINGS_QUERY = defineQuery(`*[_type == "settings"][0]{

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { motion } from "framer-motion";
-import { format, startOfToday } from "date-fns";
+import { format, startOfToday, subDays } from "date-fns";
+import type { Matcher } from "react-day-picker";
 import { CalendarIcon, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,7 @@ import {
 import { CtaButton } from "@/components/ui/cta-button";
 import { Reveal } from "@/components/motion/reveal";
 import { enquirySchema } from "@/lib/enquiry";
+import { toBookedIntervals, type BookedRange } from "@/lib/availability";
 import { dialCodes } from "@/data/dial-codes";
 import { cn } from "@/lib/utils";
 
@@ -74,14 +76,16 @@ function DateField({
 	date,
 	onSelect,
 	onClose,
-	fromDate,
+	disabled,
+	booked,
 	error,
 }: {
 	label: string;
 	date?: Date;
 	onSelect: (date?: Date) => void;
 	onClose: () => void;
-	fromDate: Date;
+	disabled: Matcher[];
+	booked: Matcher[];
 	error?: string | false;
 }) {
 	const [open, setOpen] = useState(false);
@@ -116,9 +120,17 @@ function DateField({
 							setOpen(false);
 							onClose();
 						}}
-						disabled={{ before: fromDate }}
+						disabled={disabled}
+						modifiers={{ booked }}
+						modifiersClassNames={{ booked: "text-ivory/30 line-through" }}
 						autoFocus
 					/>
+					{booked.length > 0 && (
+						<div className="flex items-center gap-2 border-t border-border px-3 py-2.5 text-[0.65rem] tracking-[0.15em] text-ivory/40 uppercase">
+							<span className="text-ivory/30 line-through">00</span>
+							Already booked
+						</div>
+					)}
 				</PopoverContent>
 			</Popover>
 		</Field>
@@ -171,11 +183,24 @@ function SuccessNote({
 	);
 }
 
-export function ReserveForm() {
+export function ReserveForm({
+	blockedDates = [],
+}: {
+	blockedDates?: BookedRange[];
+}) {
 	const [sent, setSent] = useState<{ name: string; email: string } | null>(
 		null
 	);
 	const [serverError, setServerError] = useState<string | null>(null);
+
+	const bookedMatchers = useMemo<Matcher[]>(
+		() =>
+			toBookedIntervals(blockedDates).map((interval) => ({
+				from: interval.start,
+				to: interval.end,
+			})),
+		[blockedDates]
+	);
 
 	const formik = useFormik<EnquiryFormValues>({
 		initialValues: {
@@ -232,6 +257,23 @@ export function ReserveForm() {
 	}
 
 	const selectedDial = dialCodes.find((entry) => entry.iso === formik.values.dial);
+
+	const today = startOfToday();
+	const arrivalValue = formik.values.arrival;
+	const arrivalDisabled: Matcher[] = [{ before: today }, ...bookedMatchers];
+	const firstBlockedAfterArrival = arrivalValue
+		? bookedMatchers
+				.map((matcher) => (matcher as { from: Date }).from)
+				.filter((start) => start > arrivalValue)
+				.sort((a, b) => a.getTime() - b.getTime())[0]
+		: undefined;
+	const departureDisabled: Matcher[] = [
+		{ before: arrivalValue ?? today },
+		...bookedMatchers,
+		...(firstBlockedAfterArrival
+			? [{ after: subDays(firstBlockedAfterArrival, 1) }]
+			: []),
+	];
 
 	return (
 		<Reveal>
@@ -305,7 +347,8 @@ export function ReserveForm() {
 					<DateField
 						label="Arrival"
 						date={formik.values.arrival}
-						fromDate={startOfToday()}
+						disabled={arrivalDisabled}
+						booked={bookedMatchers}
 						error={fieldError("arrival")}
 						onClose={() => formik.setFieldTouched("arrival", true)}
 						onSelect={(value) => {
@@ -322,7 +365,8 @@ export function ReserveForm() {
 					<DateField
 						label="Departure"
 						date={formik.values.departure}
-						fromDate={formik.values.arrival ?? startOfToday()}
+						disabled={departureDisabled}
+						booked={bookedMatchers}
 						error={fieldError("departure")}
 						onClose={() => formik.setFieldTouched("departure", true)}
 						onSelect={(value) => formik.setFieldValue("departure", value)}

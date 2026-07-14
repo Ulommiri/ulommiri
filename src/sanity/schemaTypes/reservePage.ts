@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const reservePage = defineType({
 	name: "reservePage",
@@ -7,6 +7,7 @@ export const reservePage = defineType({
 	groups: [
 		{ name: "hero", title: "Hero" },
 		{ name: "enquire", title: "Enquire" },
+		{ name: "availability", title: "Availability" },
 	],
 	fields: [
 		defineField({
@@ -73,6 +74,52 @@ export const reservePage = defineType({
 			type: "text",
 			rows: 3,
 			group: "enquire",
+		}),
+		defineField({
+			name: "blockedRanges",
+			title: "Booked / blocked dates",
+			description:
+				"Dates already booked through any channel. Guests cannot select these on the reserve form and will see them as unavailable.",
+			type: "array",
+			group: "availability",
+			of: [
+				defineArrayMember({
+					type: "object",
+					name: "bookedRange",
+					fields: [
+						defineField({
+							name: "from",
+							title: "First day",
+							type: "date",
+							options: { dateFormat: "DD MMM YYYY" },
+							validation: (rule) => rule.required(),
+						}),
+						defineField({
+							name: "to",
+							title: "Last day",
+							description: "Leave empty to block a single day.",
+							type: "date",
+							options: { dateFormat: "DD MMM YYYY" },
+						}),
+						defineField({
+							name: "label",
+							title: "Label",
+							description: "Optional note for your own reference.",
+							type: "string",
+						}),
+					],
+					preview: {
+						select: { from: "from", to: "to", label: "label" },
+						prepare({ from, to, label }) {
+							const span = to && to !== from ? `${from} → ${to}` : from;
+							return {
+								title: span || "Booked period",
+								subtitle: label || "Booked",
+							};
+						},
+					},
+				}),
+			],
 		}),
 	],
 	preview: {

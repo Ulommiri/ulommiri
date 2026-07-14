@@ -3,6 +3,8 @@ import { Resend } from "resend";
 import { ValidationError } from "yup";
 import { enquirySchema } from "@/lib/enquiry";
 import { buildEnquiryEmail } from "@/lib/enquiry-email";
+import { stayOverlapsBooked, toBookedIntervals } from "@/lib/availability";
+import { getReservePageContent } from "@/sanity/content";
 import { contact } from "@/data/site";
 
 export async function POST(request: Request) {
@@ -21,6 +23,14 @@ export async function POST(request: Request) {
 						: "That enquiry could not be read.",
 			},
 			{ status: 400 }
+		);
+	}
+
+	const { blockedDates } = await getReservePageContent();
+	if (stayOverlapsBooked(payload.arrival, payload.departure, toBookedIntervals(blockedDates))) {
+		return NextResponse.json(
+			{ error: "Those dates have just been booked. Please choose different dates." },
+			{ status: 409 }
 		);
 	}
 

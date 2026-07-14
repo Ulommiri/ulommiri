@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { GalleryGrid } from "@/components/sections/gallery-grid";
@@ -15,8 +15,11 @@ type GalleryHeading = {
 
 const BLOCK_W = 2360;
 const BLOCK_H = 2620;
+const ROW_H = 880;
 
-const tiles = [
+type TilePosition = { x: number; y: number; w: number };
+
+const BASE_TILES: TilePosition[] = [
 	{ x: 80, y: 140, w: 400 },
 	{ x: 620, y: 60, w: 480 },
 	{ x: 1240, y: 200, w: 380 },
@@ -31,6 +34,28 @@ const tiles = [
 	{ x: 1800, y: 1900, w: 400 },
 ];
 
+const EXTRA_COLS = [120, 640, 1220, 1780];
+
+function buildTiles(count: number): TilePosition[] {
+	if (count <= BASE_TILES.length) return BASE_TILES.slice(0, count);
+	const positions = [...BASE_TILES];
+	for (let i = BASE_TILES.length; i < count; i++) {
+		const col = i % EXTRA_COLS.length;
+		const row = Math.floor(i / EXTRA_COLS.length);
+		positions.push({
+			x: EXTRA_COLS[col] + (((i * 71) % 100) - 50),
+			y: 140 + row * ROW_H + (((i * 47) % 100) - 50),
+			w: 360 + ((i * 53) % 120),
+		});
+	}
+	return positions;
+}
+
+function blockHeightFor(count: number): number {
+	if (count <= BASE_TILES.length) return BLOCK_H;
+	return Math.ceil(count / EXTRA_COLS.length) * ROW_H + 300;
+}
+
 const wrap = (value: number, max: number) => ((value % max) + max) % max;
 
 const subscribeResize = (callback: () => void) => {
@@ -44,15 +69,16 @@ const getScale = () =>
 function Tile({
 	image,
 	index,
+	tile,
 	scale,
 	onOpen,
 }: {
 	image: MediaImage;
 	index: number;
+	tile: TilePosition;
 	scale: number;
 	onOpen: (index: number) => void;
 }) {
-	const tile = tiles[index];
 	const ratio = image.width / image.height;
 
 	return (
@@ -201,6 +227,11 @@ export function GalleryCanvas({
 	const [active, setActive] = useState<number | null>(null);
 	const reduce = useReducedMotion();
 	const scale = useSyncExternalStore(subscribeResize, getScale, () => 1);
+	const layout = useMemo(() => buildTiles(items.length), [items.length]);
+	const blockHUnscaled = useMemo(
+		() => blockHeightFor(items.length),
+		[items.length]
+	);
 
 	const step = (direction: 1 | -1) =>
 		setActive((current) =>
@@ -248,7 +279,7 @@ export function GalleryCanvas({
 			p.cy += (p.ty - p.cy) * 0.085;
 
 			const bw = BLOCK_W * s;
-			const bh = BLOCK_H * s;
+			const bh = blockHUnscaled * s;
 			if (worldRef.current) {
 				worldRef.current.style.transform = `translate3d(${
 					wrap(p.cx, bw) - bw
@@ -270,7 +301,7 @@ export function GalleryCanvas({
 			window.removeEventListener("pointercancel", onUp);
 			cancelAnimationFrame(raf);
 		};
-	}, [reduce]);
+	}, [reduce, blockHUnscaled]);
 
 	useEffect(() => {
 		const lenis = window.__lenis;
@@ -324,7 +355,7 @@ export function GalleryCanvas({
 	}
 
 	const blockW = BLOCK_W * scale;
-	const blockH = BLOCK_H * scale;
+	const blockH = blockHUnscaled * scale;
 
 	return (
 		<>
@@ -360,6 +391,7 @@ export function GalleryCanvas({
 											key={image.alt}
 											image={image}
 											index={i}
+											tile={layout[i]}
 											scale={scale}
 											onOpen={openTile}
 										/>

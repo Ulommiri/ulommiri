@@ -1,5 +1,6 @@
 import type { StaticImageData } from "next/image";
 
+import type { BookedRange } from "@/lib/availability";
 import { client } from "@/sanity/client";
 import {
 	HOME_QUERY,
@@ -153,6 +154,7 @@ export type ReservePageContent = {
 	enquireLeadLine: string;
 	enquireAccent: string;
 	enquireBody: string;
+	blockedDates: BookedRange[];
 };
 
 export type ChefItem = {
@@ -294,6 +296,13 @@ type RawReservePage = RawPageHero & {
 	enquireLeadLine?: string | null;
 	enquireAccent?: string | null;
 	enquireBody?: string | null;
+	blockedRanges?:
+		| ({
+				from?: string | null;
+				to?: string | null;
+				label?: string | null;
+		  } | null)[]
+		| null;
 };
 
 type RawChefs = RawPageHero & {
@@ -347,6 +356,17 @@ const media = (raw: SanityMedia, alt: string): MediaImage | null => {
 		width: raw.width ?? 1600,
 		height: raw.height ?? 1067,
 		alt,
+	};
+};
+
+const sizedSanityImage = (image: MediaImage, width: number): MediaImage => {
+	if (typeof image.src !== "string" || !image.src.includes("cdn.sanity.io")) {
+		return image;
+	}
+	const separator = image.src.includes("?") ? "&" : "?";
+	return {
+		...image,
+		src: `${image.src}${separator}w=${width}&q=72&auto=format&fit=max`,
 	};
 };
 
@@ -424,7 +444,8 @@ export async function getHomeContent(): Promise<HomeContent> {
 
 	const gallery: MediaImage[] = list(data.gallery, [])
 		.map((g) => media(g, text(g?.alt, "")))
-		.filter((img): img is MediaImage => img !== null);
+		.filter((img): img is MediaImage => img !== null)
+		.map((img) => sizedSanityImage(img, 1600));
 
 	const offerings: OfferingContent[] = list(data.offerings, []).map((o, i) => ({
 		index: pad(i),
@@ -622,7 +643,8 @@ export async function getSharedGallery(): Promise<MediaImage[]> {
 
 	const gallery = data
 		.map((g) => media(g, text(g?.alt, "")))
-		.filter((img): img is MediaImage => img !== null);
+		.filter((img): img is MediaImage => img !== null)
+		.map((img) => sizedSanityImage(img, 1600));
 
 	return gallery.length ? gallery : galleryContentFallback;
 }
@@ -842,7 +864,27 @@ const reservePageFallback: ReservePageContent = {
 	enquireAccent: "conversation",
 	enquireBody:
 		"Share your dates and the shape of your stay. We answer every enquiry within 24 hours and hold the house to a single booking at a time.",
+	blockedDates: [],
 };
+
+function toBlockedDates(
+	value: RawReservePage["blockedRanges"]
+): BookedRange[] {
+	if (!Array.isArray(value)) return [];
+	return value
+		.map((entry): BookedRange | null => {
+			const from = typeof entry?.from === "string" ? entry.from : null;
+			if (!from) return null;
+			const to =
+				typeof entry?.to === "string" && entry.to.length > 0 ? entry.to : from;
+			const label =
+				typeof entry?.label === "string" && entry.label.length > 0
+					? entry.label
+					: undefined;
+			return { from, to, label };
+		})
+		.filter((range): range is BookedRange => range !== null);
+}
 
 export async function getReservePageContent(): Promise<ReservePageContent> {
 	const data = (await client
@@ -860,6 +902,7 @@ export async function getReservePageContent(): Promise<ReservePageContent> {
 		),
 		enquireAccent: text(data.enquireAccent, reservePageFallback.enquireAccent),
 		enquireBody: text(data.enquireBody, reservePageFallback.enquireBody),
+		blockedDates: toBlockedDates(data.blockedRanges),
 	};
 }
 
