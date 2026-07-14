@@ -302,8 +302,8 @@ export const reserve = {
 };
 
 export const contact = {
-	email: "info@onuestates.com",
-	emailHref: "mailto:info@onuestates.com",
+	email: "reservations@ulommiri.com",
+	emailHref: "mailto:reservations@ulommiri.com",
 	phones: [
 		{ label: "+1 (281) 798-5787", href: "tel:+12817985787" },
 		{ label: "+1 (404) 543-7492", href: "tel:+14045437492" },

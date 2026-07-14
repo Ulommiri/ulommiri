@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 	const { subject, html, text } = buildEnquiryEmail(payload);
 	const resend = new Resend(apiKey);
 	const { error } = await resend.emails.send({
-		from: process.env.RESEND_FROM ?? "Ulọmmiri <onboarding@resend.dev>",
+		from: process.env.RESEND_FROM ?? "Ulọmmiri Reservations <reservations@ulommiri.com>",
 		to: contact.email,
 		replyTo: payload.email,
 		subject,
