@@ -32,6 +32,7 @@ export default async function EventsPage() {
 				subtitle={content.hero.subtitle}
 				image={content.hero.image.src}
 				videoUrl={content.hero.videoUrl}
+				overlay="light"
 			/>
 			<FeatureList
 				items={content.items.map((item) => ({
