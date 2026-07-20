@@ -30,6 +30,20 @@ import kitchen from "./images/kitchen.jpg";
 import diningLakeview from "./images/dining-lakeview.jpg";
 import terraceLakeview from "./images/terrace-lakeview.jpg";
 import nursery from "./images/nursery.jpg";
+import houseFrontDay from "./images/house-front-day.jpg";
+import houseRearDay from "./images/house-rear-day.jpg";
+import lakeAerialWide from "./images/lake-aerial-wide.jpg";
+import livingRoomFireplaceHd from "./images/living-room-fireplace-hd.jpg";
+import terraceLakeviewHd from "./images/terrace-lakeview-hd.jpg";
+import kitchenLakeview from "./images/kitchen-lakeview.jpg";
+import gamesLoft from "./images/games-loft.jpg";
+import study from "./images/study.jpg";
+import bedroomSuite from "./images/bedroom-suite.jpg";
+import primaryBath from "./images/primary-bath.jpg";
+import guestBathWhite from "./images/guest-bath-white.jpg";
+import guestBathBlack from "./images/guest-bath-black.jpg";
+import guestBathSubway from "./images/guest-bath-subway.jpg";
+import mediaLounge from "./images/media-lounge.jpg";
 
 export {
 	ulommiriPrimaryLight,
@@ -63,4 +77,18 @@ export {
 	diningLakeview,
 	terraceLakeview,
 	nursery,
+	houseFrontDay,
+	houseRearDay,
+	lakeAerialWide,
+	livingRoomFireplaceHd,
+	terraceLakeviewHd,
+	kitchenLakeview,
+	gamesLoft,
+	study,
+	bedroomSuite,
+	primaryBath,
+	guestBathWhite,
+	guestBathBlack,
+	guestBathSubway,
+	mediaLounge,
 };

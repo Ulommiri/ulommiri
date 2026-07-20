@@ -57,6 +57,23 @@ const photos = [
 	{ key: "house-rear-pool", file: "house-rear-pool.jpg", caption: "The pool terrace", alt: "The pool terrace and lawn from above" },
 	{ key: "house-entrance-dusk", file: "house-entrance-dusk.jpg", caption: "The approach", alt: "The house at dusk from the drive" },
 	{ key: "house-aerial-lake", file: "house-aerial-lake.jpg", caption: "The grounds", alt: "The grounds and the lake from above" },
+	{ key: "kitchen-lakeview", file: "kitchen-lakeview.jpg", caption: "The kitchen, toward the water", alt: "The kitchen looking through to the lake" },
+	{ key: "bedroom-suite", file: "bedroom-suite.jpg", caption: "A bedroom suite", alt: "A bedroom suite in linen and warm oak" },
+	{ key: "primary-bath", file: "primary-bath.jpg", caption: "The primary bath", alt: "The primary bathroom with freestanding tub and walk-in shower" },
+	{ key: "guest-bath-white", file: "guest-bath-white.jpg", caption: "A guest bath", alt: "A guest bathroom in white subway tile" },
+	{ key: "guest-bath-black", file: "guest-bath-black.jpg", caption: "A guest bath", alt: "A guest bathroom in black tile" },
+	{ key: "guest-bath-subway", file: "guest-bath-subway.jpg", caption: "A guest bath", alt: "A guest bathroom with vessel basin and walk-in shower" },
+	{ key: "games-loft", file: "games-loft.jpg", caption: "The games loft", alt: "The billiards loft with a wet bar and lake views" },
+	{ key: "media-lounge", file: "media-lounge.jpg", caption: "The media lounge", alt: "The media lounge with floor seating and a garden door" },
+	{ key: "study", file: "study.jpg", caption: "The study", alt: "The study with a sculpted desk and lit alcoves" },
+	{ key: "house-rear-day", file: "house-rear-day.jpg", caption: "The rear elevation", alt: "The rear of the house and the pool in daylight" },
+	{ key: "house-front-day", file: "house-front-day.jpg", caption: "The approach", alt: "The front of the house in daylight" },
+	{ key: "lake-aerial-wide", file: "lake-aerial-wide.jpg", caption: "The lake", alt: "The house on the lake from above" },
+];
+
+const upgrades = [
+	{ key: "living-room-fireplace", file: "living-room-fireplace-hd.jpg" },
+	{ key: "terrace-lakeview", file: "terrace-lakeview-hd.jpg" },
 ];
 
 const facts = [
@@ -118,6 +135,27 @@ async function run() {
 	console.log(`Interiors: ${(accommodations.interiors ?? []).length} existing, ${missingInteriors.length} to append`);
 	console.log(`Facts: ${(accommodations.facts ?? []).length} existing`);
 	console.log(`Enquiry recipients: ${JSON.stringify(settings.enquiryRecipients ?? [])} existing`);
+
+	const widths = await client.fetch(
+		`{
+			"gallery": *[_id == "home"][0].gallery[]{ _key, "w": image.asset->metadata.dimensions.width },
+			"interiors": *[_id == "accommodations"][0].interiors[]{ _key, "w": image.asset->metadata.dimensions.width }
+		}`
+	);
+	const widthFor = (rows, key) => (rows ?? []).find((r) => r._key === key)?.w ?? 0;
+
+	const pendingUpgrades = upgrades.flatMap((u) => {
+		const targets = [];
+		if (widthFor(widths.gallery, `house-${u.key}`) && widthFor(widths.gallery, `house-${u.key}`) < 1500) {
+			targets.push({ doc: "home", path: `gallery[_key=="house-${u.key}"].image`, file: u.file });
+		}
+		if (widthFor(widths.interiors, `interior-${u.key}`) && widthFor(widths.interiors, `interior-${u.key}`) < 1500) {
+			targets.push({ doc: "accommodations", path: `interiors[_key=="interior-${u.key}"].image`, file: u.file });
+		}
+		return targets;
+	});
+
+	console.log(`Low-resolution photographs to upgrade: ${pendingUpgrades.length}`);
 
 	if (DRY_RUN) {
 		console.log("Dry run — nothing written.");
@@ -181,6 +219,14 @@ async function run() {
 		})
 		.commit();
 	console.log("✓ Gallery collage copy ensured (existing values kept)");
+
+	for (const upgrade of pendingUpgrades) {
+		await client
+			.patch(upgrade.doc)
+			.set({ [upgrade.path]: await imageField(upgrade.file) })
+			.commit();
+		console.log(`✓ Upgraded ${upgrade.path} to the high-resolution photograph`);
+	}
 
 	await client.patch("settings").setIfMissing({ enquiryRecipients }).commit();
 	console.log("✓ Enquiry recipients ensured (existing list kept)");
