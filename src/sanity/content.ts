@@ -25,6 +25,9 @@ import {
 	faqs as faqsFallback,
 	footer as footerFallback,
 	galleryImages as galleryFallback,
+	houseFacts as houseFactsFallback,
+	houseInteriors as houseInteriorsFallback,
+	houseSpaces as houseSpacesFallback,
 	heroMeta,
 	offerings as offeringsFallback,
 	reserve as reserveFallback,
@@ -118,8 +121,23 @@ export type PageHeroContent = {
 	subtitle: string;
 };
 
+export type HouseFactContent = { label: string; value: string };
+
+export type HouseInteriorContent = MediaImage & { caption: string };
+
 export type AccommodationsContent = {
 	hero: PageHeroContent;
+	facts: {
+		label: string;
+		title: [string, string];
+		items: HouseFactContent[];
+		spaces: string[];
+	};
+	interiors: {
+		label: string;
+		title: [string, string];
+		items: HouseInteriorContent[];
+	};
 	cta: { title: [string, string]; body: string };
 };
 
@@ -132,6 +150,7 @@ export type EventsContent = {
 export type GalleryPageContent = {
 	eyebrow: string;
 	title: [string, string];
+	collage: { label: string; title: [string, string] };
 	cta: { title: [string, string]; body: string };
 };
 
@@ -173,6 +192,7 @@ export type ChefsContent = {
 export type SiteSettings = {
 	contactEmail: string;
 	contactEmailHref: string;
+	enquiryRecipients: string[];
 	contactPhones: { label: string; href: string }[];
 	socials: { label: string; href: string }[];
 	footerTagline: string;
@@ -248,6 +268,15 @@ type RawPageHero = {
 };
 
 type RawAccommodations = RawPageHero & {
+	factsLabel?: string | null;
+	factsTitleLine1?: string | null;
+	factsTitleLine2?: string | null;
+	facts?: ({ label?: string | null; value?: string | null })[] | null;
+	spaces?: (string | null)[] | null;
+	interiorsLabel?: string | null;
+	interiorsTitleLine1?: string | null;
+	interiorsTitleLine2?: string | null;
+	interiors?: (RawMedia & { caption?: string | null; alt?: string | null })[] | null;
 	ctaTitleLine1?: string | null;
 	ctaTitleLine2?: string | null;
 	ctaBody?: string | null;
@@ -272,6 +301,9 @@ type RawGalleryPage = {
 	eyebrow?: string | null;
 	titleLine1?: string | null;
 	titleLine2?: string | null;
+	collageLabel?: string | null;
+	collageTitleLine1?: string | null;
+	collageTitleLine2?: string | null;
 	ctaTitleLine1?: string | null;
 	ctaTitleLine2?: string | null;
 	ctaBody?: string | null;
@@ -328,6 +360,7 @@ type RawGalleryItem = RawMedia & { alt?: string | null };
 type RawSettings = {
 	contactEmail?: string | null;
 	contactPhones?: (string | null)[] | null;
+	enquiryRecipients?: (string | null)[] | null;
 	socials?: ({ label?: string | null; href?: string | null })[] | null;
 	footerTagline?: string | null;
 	footerLocation?: string | null;
@@ -658,11 +691,27 @@ const accommodationsFallback: AccommodationsContent = {
 		subtitle:
 			"Linen, light and quiet — every chamber opens toward the lake, so the water is the first thing you see and the last thing you hear.",
 	},
+	facts: {
+		label: "The House",
+		title: ["Everything", "under one roof"],
+		items: houseFactsFallback,
+		spaces: houseSpacesFallback,
+	},
+	interiors: {
+		label: "Inside",
+		title: ["The house,", "room by room"],
+		items: houseInteriorsFallback.map((i) => ({
+			...staticImage(i.src, i.alt),
+			caption: i.caption,
+		})),
+	},
 	cta: {
 		title: ["Wake to", "the water"],
 		body: "A limited number of chambers open each season. Reserve the house and we will prepare it exactly to your rhythm.",
 	},
 };
+
+const isSetFact = (value: string) => value.length > 0 && value !== "—";
 
 export async function getAccommodationsContent(): Promise<AccommodationsContent> {
 	const data = (await client
@@ -671,8 +720,44 @@ export async function getAccommodationsContent(): Promise<AccommodationsContent>
 
 	if (!data) return accommodationsFallback;
 
+	const facts = list(data.facts, [])
+		.map((f) => ({ label: text(f?.label, ""), value: text(f?.value, "") }))
+		.filter((f) => f.label && isSetFact(f.value));
+
+	const spaces = list(data.spaces, []).filter(
+		(s): s is string => typeof s === "string" && s.trim().length > 0
+	);
+
+	const interiors = list(data.interiors, [])
+		.map((i) => {
+			const image = media(i, text(i?.alt, text(i?.caption, "")));
+			return image
+				? { ...sizedSanityImage(image, 1600), caption: text(i?.caption, "") }
+				: null;
+		})
+		.filter((i): i is HouseInteriorContent => i !== null);
+
 	return {
 		hero: pageHero(data, accommodationsFallback.hero),
+		facts: {
+			label: text(data.factsLabel, accommodationsFallback.facts.label),
+			title: [
+				text(data.factsTitleLine1, accommodationsFallback.facts.title[0]),
+				text(data.factsTitleLine2, accommodationsFallback.facts.title[1]),
+			],
+			items: facts.length
+				? facts
+				: accommodationsFallback.facts.items.filter((f) => isSetFact(f.value)),
+			spaces: spaces.length ? spaces : accommodationsFallback.facts.spaces,
+		},
+		interiors: {
+			label: text(data.interiorsLabel, accommodationsFallback.interiors.label),
+			title: [
+				text(data.interiorsTitleLine1, accommodationsFallback.interiors.title[0]),
+				text(data.interiorsTitleLine2, accommodationsFallback.interiors.title[1]),
+			],
+			items: interiors.length ? interiors : accommodationsFallback.interiors.items,
+		},
 		cta: {
 			title: [
 				text(data.ctaTitleLine1, accommodationsFallback.cta.title[0]),
@@ -748,6 +833,7 @@ export async function getEventsContent(): Promise<EventsContent> {
 const galleryPageFallback: GalleryPageContent = {
 	eyebrow: "Gallery",
 	title: ["The house,", "in light"],
+	collage: { label: "Every Room", title: ["The whole house,", "at a glance"] },
 	cta: {
 		title: ["Seen enough", "to stay?"],
 		body: "The photographs only hold still. The house does not — come let it move around you.",
@@ -763,6 +849,13 @@ export async function getGalleryPageContent(): Promise<GalleryPageContent> {
 
 	return {
 		eyebrow: text(data.eyebrow, galleryPageFallback.eyebrow),
+		collage: {
+			label: text(data.collageLabel, galleryPageFallback.collage.label),
+			title: [
+				text(data.collageTitleLine1, galleryPageFallback.collage.title[0]),
+				text(data.collageTitleLine2, galleryPageFallback.collage.title[1]),
+			],
+		},
 		title: [
 			text(data.titleLine1, galleryPageFallback.title[0]),
 			text(data.titleLine2, galleryPageFallback.title[1]),
@@ -980,6 +1073,7 @@ export async function getChefsContent(): Promise<ChefsContent> {
 const settingsFallback: SiteSettings = {
 	contactEmail: contact.email,
 	contactEmailHref: contact.emailHref,
+	enquiryRecipients: contact.enquiryRecipients,
 	contactPhones: contact.phones.map((p) => ({ label: p.label, href: p.href })),
 	socials: footerFallback.socials.map((s) => ({ label: s.label, href: s.href })),
 	footerTagline: footerFallback.tagline,
@@ -1000,9 +1094,14 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 		(s) => text(s?.label, "") && text(s?.href, "")
 	);
 
+	const recipients = list(data.enquiryRecipients, []).filter(
+		(r): r is string => typeof r === "string" && r.includes("@")
+	);
+
 	return {
 		contactEmail: email,
 		contactEmailHref: `mailto:${email}`,
+		enquiryRecipients: recipients.length ? recipients : [email],
 		contactPhones: phones.map((p) => ({ label: p, href: telHref(p) })),
 		socials: socials.length
 			? socials.map((s) => ({ label: text(s?.label, ""), href: text(s?.href, "") }))

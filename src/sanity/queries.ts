@@ -84,6 +84,21 @@ export const ACCOMMODATIONS_QUERY = defineQuery(`*[_type == "accommodations"][0]
 	"heroImageUrl": heroImage.asset->url,
 	"heroImageWidth": heroImage.asset->metadata.dimensions.width,
 	"heroImageHeight": heroImage.asset->metadata.dimensions.height,
+	factsLabel,
+	factsTitleLine1,
+	factsTitleLine2,
+	facts[]{ label, value },
+	spaces,
+	interiorsLabel,
+	interiorsTitleLine1,
+	interiorsTitleLine2,
+	interiors[]{
+		caption,
+		alt,
+		"url": image.asset->url,
+		"width": image.asset->metadata.dimensions.width,
+		"height": image.asset->metadata.dimensions.height
+	},
 	ctaTitleLine1,
 	ctaTitleLine2,
 	ctaBody
@@ -137,6 +152,9 @@ export const GALLERY_PAGE_QUERY = defineQuery(`*[_type == "galleryPage"][0]{
 	eyebrow,
 	titleLine1,
 	titleLine2,
+	collageLabel,
+	collageTitleLine1,
+	collageTitleLine2,
 	ctaTitleLine1,
 	ctaTitleLine2,
 	ctaBody
@@ -183,6 +201,7 @@ export const RESERVE_QUERY = defineQuery(`*[_type == "reservePage"][0]{
 export const SETTINGS_QUERY = defineQuery(`*[_type == "settings"][0]{
 	contactEmail,
 	contactPhones,
+	enquiryRecipients,
 	socials[]{ label, href },
 	footerTagline,
 	footerLocation

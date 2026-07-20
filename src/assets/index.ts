@@ -21,6 +21,15 @@ import cinemaDeck from "./images/cinema-deck.jpg";
 import lakeCinema from "./images/lake-cinema.jpg";
 import poolsideCinema from "./images/poolside-cinema.jpg";
 import nightGathering from "./images/night-gathering.jpg";
+import houseEntranceDusk from "./images/house-entrance-dusk.jpg";
+import houseRearPool from "./images/house-rear-pool.jpg";
+import houseAerialLake from "./images/house-aerial-lake.jpg";
+import greatRoomLake from "./images/great-room-lake.jpg";
+import livingRoomFireplace from "./images/living-room-fireplace.jpg";
+import kitchen from "./images/kitchen.jpg";
+import diningLakeview from "./images/dining-lakeview.jpg";
+import terraceLakeview from "./images/terrace-lakeview.jpg";
+import nursery from "./images/nursery.jpg";
 
 export {
 	ulommiriPrimaryLight,
@@ -45,4 +54,13 @@ export {
 	lakeCinema,
 	poolsideCinema,
 	nightGathering,
+	houseEntranceDusk,
+	houseRearPool,
+	houseAerialLake,
+	greatRoomLake,
+	livingRoomFireplace,
+	kitchen,
+	diningLakeview,
+	terraceLakeview,
+	nursery,
 };

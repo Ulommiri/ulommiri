@@ -1,4 +1,5 @@
 import { GalleryCanvas } from "@/components/sections/gallery-canvas";
+import { GalleryCollage } from "@/components/sections/gallery-collage";
 import { PageCta } from "@/components/sections/page-cta";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
@@ -39,6 +40,11 @@ export default async function GalleryPage() {
 					titleLine1: content.title[0],
 					titleLine2: content.title[1],
 				}}
+			/>
+			<GalleryCollage
+				label={content.collage.label}
+				title={content.collage.title}
+				items={images}
 			/>
 			<PageCta title={content.cta.title} body={content.cta.body} />
 		</main>

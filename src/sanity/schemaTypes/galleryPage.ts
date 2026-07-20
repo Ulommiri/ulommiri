@@ -6,6 +6,7 @@ export const galleryPage = defineType({
 	type: "document",
 	groups: [
 		{ name: "intro", title: "Intro" },
+		{ name: "collage", title: "Collage" },
 		{ name: "cta", title: "Call to action" },
 	],
 	fields: [
@@ -26,6 +27,24 @@ export const galleryPage = defineType({
 			title: "Title line 2 (gold italic)",
 			type: "string",
 			group: "intro",
+		}),
+		defineField({
+			name: "collageLabel",
+			title: "Section label",
+			type: "string",
+			group: "collage",
+		}),
+		defineField({
+			name: "collageTitleLine1",
+			title: "Title line 1",
+			type: "string",
+			group: "collage",
+		}),
+		defineField({
+			name: "collageTitleLine2",
+			title: "Title line 2 (gold italic)",
+			type: "string",
+			group: "collage",
 		}),
 		defineField({
 			name: "ctaTitleLine1",

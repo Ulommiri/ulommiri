@@ -1,5 +1,7 @@
 import { PageHero } from "@/components/layout/page-hero";
 import { FeatureList } from "@/components/sections/feature-list";
+import { HouseFacts } from "@/components/sections/house-facts";
+import { HouseGallery } from "@/components/sections/house-gallery";
 import { PageCta } from "@/components/sections/page-cta";
 import { JsonLd } from "@/components/seo/json-ld";
 import { pageMetadata, breadcrumbSchema } from "@/lib/seo";
@@ -32,6 +34,17 @@ export default async function AccommodationsPage() {
 				subtitle={content.hero.subtitle}
 				image={content.hero.image.src}
 				videoUrl={content.hero.videoUrl}
+			/>
+			<HouseFacts
+				label={content.facts.label}
+				title={content.facts.title}
+				items={content.facts.items}
+				spaces={content.facts.spaces}
+			/>
+			<HouseGallery
+				label={content.interiors.label}
+				title={content.interiors.title}
+				items={content.interiors.items}
 			/>
 			<FeatureList
 				items={chambers.map((chamber) => ({

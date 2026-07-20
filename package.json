@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "node scripts/seed.mjs"
+    "seed": "node scripts/seed.mjs",
+    "add-house-photos": "node scripts/add-house-photos.mjs"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",

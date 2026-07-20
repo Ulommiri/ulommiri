@@ -145,6 +145,47 @@ const gallery = [
 	{ file: "aerial-estate.jpg", alt: "The house and lake from above" },
 	{ file: "omakase-lakeside.jpg", alt: "Omakase set beside the water" },
 	{ file: "suite-window.jpg", alt: "A suite opening toward the lake" },
+	{ file: "house-entrance-dusk.jpg", alt: "The house at dusk from the drive" },
+	{ file: "great-room-lake.jpg", alt: "The double-height great room facing the lake" },
+	{ file: "living-room-fireplace.jpg", alt: "The living room fireplace and walnut wall" },
+	{ file: "kitchen.jpg", alt: "The chef's kitchen in white stone" },
+	{ file: "dining-lakeview.jpg", alt: "The dining table looking out to the water" },
+	{ file: "terrace-lakeview.jpg", alt: "The covered terrace above the lake" },
+	{ file: "nursery.jpg", alt: "The nursery and its lit alcoves" },
+	{ file: "house-rear-pool.jpg", alt: "The pool terrace and lawn from above" },
+	{ file: "house-aerial-lake.jpg", alt: "The grounds and the lake from above" },
+];
+
+const houseFacts = [
+	{ key: "bedrooms", label: "Bedrooms", value: "" },
+	{ key: "bathrooms", label: "Bathrooms", value: "" },
+	{ key: "sleeps", label: "Sleeps", value: "14 guests" },
+	{ key: "interior", label: "Interior", value: "" },
+	{ key: "garage", label: "Garage", value: "3 bays" },
+	{ key: "grounds", label: "Grounds", value: "Private lakefront" },
+];
+
+const houseSpaces = [
+	"Double-height great room",
+	"Living room with fireplace",
+	"Chef's kitchen",
+	"Lakeview dining",
+	"Covered terrace",
+	"Nursery",
+	"Games loft",
+	"Infinity pool",
+];
+
+const houseInteriors = [
+	{ key: "great-room-lake", file: "great-room-lake.jpg", caption: "The great room", alt: "The double-height great room facing the lake" },
+	{ key: "living-room-fireplace", file: "living-room-fireplace.jpg", caption: "The living room", alt: "The living room fireplace and walnut wall" },
+	{ key: "kitchen", file: "kitchen.jpg", caption: "The kitchen", alt: "The chef's kitchen in white stone" },
+	{ key: "dining-lakeview", file: "dining-lakeview.jpg", caption: "The dining room", alt: "The dining table looking out to the water" },
+	{ key: "terrace-lakeview", file: "terrace-lakeview.jpg", caption: "The terrace", alt: "The covered terrace above the lake" },
+	{ key: "nursery", file: "nursery.jpg", caption: "The nursery", alt: "The nursery and its lit alcoves" },
+	{ key: "house-rear-pool", file: "house-rear-pool.jpg", caption: "The pool terrace", alt: "The pool terrace and lawn from above" },
+	{ key: "house-entrance-dusk", file: "house-entrance-dusk.jpg", caption: "The approach", alt: "The house at dusk from the drive" },
+	{ key: "house-aerial-lake", file: "house-aerial-lake.jpg", caption: "The grounds", alt: "The grounds and the lake from above" },
 ];
 
 const faqs = [
@@ -335,9 +376,34 @@ async function buildExperiences() {
 }
 
 async function buildAccommodations() {
+	const interiorMembers = [];
+	for (const i of houseInteriors) {
+		interiorMembers.push({
+			_type: "interior",
+			_key: `interior-${i.key}`,
+			caption: i.caption,
+			alt: i.alt,
+			image: await imageField(i.file),
+		});
+	}
+
 	return {
 		_id: "accommodations",
 		_type: "accommodations",
+		factsLabel: "The House",
+		factsTitleLine1: "Everything",
+		factsTitleLine2: "under one roof",
+		facts: houseFacts.map((f) => ({
+			_type: "fact",
+			_key: f.key,
+			label: f.label,
+			value: f.value,
+		})),
+		spaces: houseSpaces,
+		interiorsLabel: "Inside",
+		interiorsTitleLine1: "The house,",
+		interiorsTitleLine2: "room by room",
+		interiors: interiorMembers,
 		heroImage: await imageField("suite-window.jpg"),
 		heroEyebrow: "Accommodations",
 		heroTitleLine1: "Rooms that",
@@ -417,6 +483,9 @@ const galleryPage = {
 	eyebrow: "Gallery",
 	titleLine1: "The house,",
 	titleLine2: "in light",
+	collageLabel: "Every Room",
+	collageTitleLine1: "The whole house,",
+	collageTitleLine2: "at a glance",
 	ctaTitleLine1: "Seen enough",
 	ctaTitleLine2: "to stay?",
 	ctaBody:
@@ -522,6 +591,7 @@ const settings = {
 	_type: "settings",
 	contactEmail: "info@onuestates.com",
 	contactPhones: ["+1 (281) 798-5787", "+1 (404) 543-7492"],
+	enquiryRecipients: ["info@onuestates.com", "adamcmcw@gmail.com"],
 	socials: [
 		{
 			_type: "social",

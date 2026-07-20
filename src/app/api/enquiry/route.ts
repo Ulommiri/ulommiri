@@ -4,8 +4,7 @@ import { ValidationError } from "yup";
 import { enquirySchema } from "@/lib/enquiry";
 import { buildEnquiryEmail } from "@/lib/enquiry-email";
 import { stayOverlapsBooked, toBookedIntervals } from "@/lib/availability";
-import { getReservePageContent } from "@/sanity/content";
-import { contact } from "@/data/site";
+import { getReservePageContent, getSiteSettings } from "@/sanity/content";
 
 export async function POST(request: Request) {
 	let payload;
@@ -26,7 +25,10 @@ export async function POST(request: Request) {
 		);
 	}
 
-	const { blockedDates } = await getReservePageContent();
+	const [{ blockedDates }, settings] = await Promise.all([
+		getReservePageContent(),
+		getSiteSettings(),
+	]);
 	if (stayOverlapsBooked(payload.arrival, payload.departure, toBookedIntervals(blockedDates))) {
 		return NextResponse.json(
 			{ error: "Those dates have just been booked. Please choose different dates." },
@@ -46,7 +48,7 @@ export async function POST(request: Request) {
 	const resend = new Resend(apiKey);
 	const { error } = await resend.emails.send({
 		from: process.env.RESEND_FROM ?? "Ulọmmiri Reservations <reservations@ulommiri.com>",
-		to: contact.email,
+		to: settings.enquiryRecipients,
 		replyTo: payload.email,
 		subject,
 		html,

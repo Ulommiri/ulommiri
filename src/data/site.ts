@@ -13,6 +13,15 @@ import {
 	poolsideCinema,
 	cinemaDeck,
 	aerialEstate,
+	houseEntranceDusk,
+	houseRearPool,
+	houseAerialLake,
+	greatRoomLake,
+	livingRoomFireplace,
+	kitchen,
+	diningLakeview,
+	terraceLakeview,
+	nursery,
 } from "@/assets";
 
 export const HERO_VIDEO =
@@ -251,6 +260,87 @@ export const galleryImages: GalleryImage[] = [
 	{ src: aerialEstate, alt: "The house and lake from above" },
 	{ src: omakaseLakeside, alt: "Omakase set beside the water" },
 	{ src: suiteWindow, alt: "A suite opening toward the lake" },
+	{ src: houseEntranceDusk, alt: "The house at dusk from the drive" },
+	{ src: greatRoomLake, alt: "The double-height great room facing the lake" },
+	{ src: livingRoomFireplace, alt: "The living room fireplace and walnut wall" },
+	{ src: kitchen, alt: "The chef's kitchen in white stone" },
+	{ src: diningLakeview, alt: "The dining table looking out to the water" },
+	{ src: terraceLakeview, alt: "The covered terrace above the lake" },
+	{ src: nursery, alt: "The nursery and its lit alcoves" },
+	{ src: houseRearPool, alt: "The pool terrace and lawn from above" },
+	{ src: houseAerialLake, alt: "The grounds and the lake from above" },
+];
+
+export type HouseFact = { label: string; value: string };
+
+export const houseFacts: HouseFact[] = [
+	{ label: "Bedrooms", value: "—" },
+	{ label: "Bathrooms", value: "—" },
+	{ label: "Sleeps", value: "14 guests" },
+	{ label: "Interior", value: "—" },
+	{ label: "Garage", value: "3 bays" },
+	{ label: "Grounds", value: "Private lakefront" },
+];
+
+export const houseSpaces: string[] = [
+	"Double-height great room",
+	"Living room with fireplace",
+	"Chef's kitchen",
+	"Lakeview dining",
+	"Covered terrace",
+	"Nursery",
+	"Games loft",
+	"Infinity pool",
+];
+
+export type HouseInterior = { src: StaticImageData; alt: string; caption: string };
+
+export const houseInteriors: HouseInterior[] = [
+	{
+		src: greatRoomLake,
+		alt: "The double-height great room facing the lake",
+		caption: "The great room",
+	},
+	{
+		src: livingRoomFireplace,
+		alt: "The living room fireplace and walnut wall",
+		caption: "The living room",
+	},
+	{
+		src: kitchen,
+		alt: "The chef's kitchen in white stone",
+		caption: "The kitchen",
+	},
+	{
+		src: diningLakeview,
+		alt: "The dining table looking out to the water",
+		caption: "The dining room",
+	},
+	{
+		src: terraceLakeview,
+		alt: "The covered terrace above the lake",
+		caption: "The terrace",
+	},
+	{
+		src: nursery,
+		alt: "The nursery and its lit alcoves",
+		caption: "The nursery",
+	},
+	{
+		src: houseRearPool,
+		alt: "The pool terrace and lawn from above",
+		caption: "The pool terrace",
+	},
+	{
+		src: houseEntranceDusk,
+		alt: "The house at dusk from the drive",
+		caption: "The approach",
+	},
+	{
+		src: houseAerialLake,
+		alt: "The grounds and the lake from above",
+		caption: "The grounds",
+	},
 ];
 
 export type Faq = { question: string; answer: string };
@@ -304,6 +394,7 @@ export const reserve = {
 export const contact = {
 	email: "reservations@ulommiri.com",
 	emailHref: "mailto:reservations@ulommiri.com",
+	enquiryRecipients: ["info@onuestates.com", "adamcmcw@gmail.com"],
 	phones: [
 		{ label: "+1 (281) 798-5787", href: "tel:+12817985787" },
 		{ label: "+1 (404) 543-7492", href: "tel:+14045437492" },
